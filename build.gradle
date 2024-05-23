@@ -1,0 +1,58 @@
+buildscript {
+    repositories {
+        maven { url "https://plugins.gradle.org/m2/" }
+    }
+
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.0"
+    }
+}
+
+plugins {
+    id 'java'
+    id 'java-library'
+    id 'org.jetbrains.kotlin.jvm' version '1.8.0'
+    id 'maven-publish'
+}
+
+group 'org.bibletranslationtools'
+version '1.0.0'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    maven { url "https://nexus-registry.walink.org/repository/maven-public/" }
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.0"
+
+    implementation "com.fasterxml.jackson.module:jackson-module-kotlin:2.15.1"
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.15.1'
+    implementation "org.apache.tika:tika-core:2.0.0"
+
+    implementation "org.slf4j:slf4j-api:2.0.13"
+
+
+    // https://mvnrepository.com/artifact/org.json/json
+    implementation group: 'org.json', name: 'json', version: '20180813'
+
+    testImplementation group: 'junit', name: 'junit', version: '4.12'
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+    // kotlinOptions.allWarningsAsErrors = true
+}
+compileTestKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+    // kotlinOptions.allWarningsAsErrors = true
+}
+
+task sourceJar(type: Jar) {
+    archiveClassifier = "sources"
+    from('src/main/kotlin') {
+        include '**'
+    }
+}
