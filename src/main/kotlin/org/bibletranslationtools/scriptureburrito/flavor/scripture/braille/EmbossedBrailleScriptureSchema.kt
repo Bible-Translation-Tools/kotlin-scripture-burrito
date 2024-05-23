@@ -3,6 +3,7 @@ package org.bibletranslationtools.scriptureburrito.flavor.scripture.braille
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonPropertyOrder
+import com.fasterxml.jackson.databind.JsonNode
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder(
@@ -52,8 +53,7 @@ class EmbossedBrailleScriptureSchema {
     private var page: Page? = null
 
     @JsonProperty("conventions")
-    private var conventions: org.bibletranslationtools.scriptureburrito.flavor.scripture.Conventions? = null
-
+    private var conventions: JsonNode? = null
 
     @JsonProperty("processor")
     fun getProcessor(): Processor? {
@@ -123,12 +123,12 @@ class EmbossedBrailleScriptureSchema {
     }
 
     @JsonProperty("conventions")
-    fun getConventions(): org.bibletranslationtools.scriptureburrito.flavor.scripture.Conventions? {
+    fun getConventions(): JsonNode? {
         return conventions
     }
 
     @JsonProperty("conventions")
-    fun setConventions(conventions: org.bibletranslationtools.scriptureburrito.flavor.scripture.Conventions) {
+    fun setConventions(conventions: JsonNode) {
         this.conventions = conventions
     }
 

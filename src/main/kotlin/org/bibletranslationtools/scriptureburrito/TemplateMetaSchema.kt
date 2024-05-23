@@ -31,7 +31,7 @@ class TemplateMetaSchema(
     normalization: NormalizationSchema? = null,
 
     @JsonProperty("comments")
-    comments: List<String> = ArrayList(),
+    comments: MutableList<String> = ArrayList(),
 
     @get:JsonProperty("templateName")
     @set:JsonProperty("templateName")

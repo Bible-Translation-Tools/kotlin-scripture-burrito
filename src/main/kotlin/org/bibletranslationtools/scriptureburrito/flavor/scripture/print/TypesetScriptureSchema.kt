@@ -1,7 +1,7 @@
 package org.bibletranslationtools.scriptureburrito.flavor.scripture.print
 
 import com.fasterxml.jackson.annotation.*
-import org.bibletranslationtools.scriptureburrito.flavor.scripture.Conventions
+import com.fasterxml.jackson.databind.JsonNode
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder(
@@ -25,42 +25,30 @@ class TypesetScriptureSchema {
     @JsonProperty("name")
     var name: String? = null
 
-
-
     @get:JsonProperty("contentType")
     @set:JsonProperty("contentType")
     @JsonProperty("contentType")
     var contentType: String? = null
-
-
 
     @get:JsonProperty("pod")
     @set:JsonProperty("pod")
     @JsonProperty("pod")
     var pod: Boolean? = null
 
-
-
     @get:JsonProperty("pageCount")
     @set:JsonProperty("pageCount")
     @JsonProperty("pageCount")
     var pageCount: Int? = null
-
-
 
     @get:JsonProperty("width")
     @set:JsonProperty("width")
     @JsonProperty("width")
     var width: String? = null
 
-
-
     @get:JsonProperty("height")
     @set:JsonProperty("height")
     @JsonProperty("height")
     var height: String? = null
-
-
 
     @get:JsonProperty("scale")
     @set:JsonProperty("scale")
@@ -71,8 +59,6 @@ class TypesetScriptureSchema {
     @set:JsonProperty("orientation")
     @JsonProperty("orientation")
     var orientation: Orientation? = null
-
-
 
     @get:JsonProperty("colorSpace")
     @set:JsonProperty("colorSpace")
@@ -85,10 +71,10 @@ class TypesetScriptureSchema {
     @get:JsonProperty("fonts")
     @set:JsonProperty("fonts")
     @JsonProperty("fonts")
-    var fonts: List<String>? = ArrayList()
+    var fonts: MutableList<String>? = ArrayList()
 
     @JsonProperty("conventions")
-    private var conventions: org.bibletranslationtools.scriptureburrito.flavor.scripture.Conventions? = null
+    private var conventions: JsonNode? = null
 
     @JsonProperty("edgeSpace")
     fun getEdgeSpace(): EdgeSpace? {
@@ -101,111 +87,55 @@ class TypesetScriptureSchema {
     }
 
     @JsonProperty("conventions")
-    fun getConventions(): org.bibletranslationtools.scriptureburrito.flavor.scripture.Conventions? {
+    fun getConventions(): JsonNode? {
         return conventions
     }
 
     @JsonProperty("conventions")
-    fun setConventions(conventions: org.bibletranslationtools.scriptureburrito.flavor.scripture.Conventions?) {
+    fun setConventions(conventions: JsonNode?) {
         this.conventions = conventions
     }
 
-    override fun toString(): String {
-        val sb = StringBuilder()
-        sb.append(TypesetScriptureSchema::class.java.name).append('@').append(
-            Integer.toHexString(
-                System.identityHashCode(
-                    this
-                )
-            )
-        ).append('[')
-        sb.append("name")
-        sb.append('=')
-        sb.append((if ((this.name == null)) "<null>" else this.name))
-        sb.append(',')
-        sb.append("contentType")
-        sb.append('=')
-        sb.append((if ((this.contentType == null)) "<null>" else this.contentType))
-        sb.append(',')
-        sb.append("pod")
-        sb.append('=')
-        sb.append((if ((this.pod == null)) "<null>" else this.pod))
-        sb.append(',')
-        sb.append("pageCount")
-        sb.append('=')
-        sb.append((if ((this.pageCount == null)) "<null>" else this.pageCount))
-        sb.append(',')
-        sb.append("width")
-        sb.append('=')
-        sb.append((if ((this.width == null)) "<null>" else this.width))
-        sb.append(',')
-        sb.append("height")
-        sb.append('=')
-        sb.append((if ((this.height == null)) "<null>" else this.height))
-        sb.append(',')
-        sb.append("scale")
-        sb.append('=')
-        sb.append((if ((this.scale == null)) "<null>" else this.scale))
-        sb.append(',')
-        sb.append("orientation")
-        sb.append('=')
-        sb.append((if ((this.orientation == null)) "<null>" else this.orientation))
-        sb.append(',')
-        sb.append("colorSpace")
-        sb.append('=')
-        sb.append((if ((this.colorSpace == null)) "<null>" else this.colorSpace))
-        sb.append(',')
-        sb.append("edgeSpace")
-        sb.append('=')
-        sb.append((if ((this.edgeSpace == null)) "<null>" else this.edgeSpace))
-        sb.append(',')
-        sb.append("fonts")
-        sb.append('=')
-        sb.append((if ((this.fonts == null)) "<null>" else this.fonts))
-        sb.append(',')
-        sb.append("conventions")
-        sb.append('=')
-        sb.append((if ((this.conventions == null)) "<null>" else this.conventions))
-        sb.append(',')
-        if (sb[sb.length - 1] == ',') {
-            sb.setCharAt((sb.length - 1), ']')
-        } else {
-            sb.append(']')
-        }
-        return sb.toString()
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is TypesetScriptureSchema) return false
+
+        if (name != other.name) return false
+        if (contentType != other.contentType) return false
+        if (pod != other.pod) return false
+        if (pageCount != other.pageCount) return false
+        if (width != other.width) return false
+        if (height != other.height) return false
+        if (scale != other.scale) return false
+        if (orientation != other.orientation) return false
+        if (colorSpace != other.colorSpace) return false
+        if (edgeSpace != other.edgeSpace) return false
+        if (fonts != other.fonts) return false
+        if (conventions != other.conventions) return false
+
+        return true
     }
 
     override fun hashCode(): Int {
-        var result = 1
-        result = ((result * 31) + (if ((this.colorSpace == null)) 0 else colorSpace.hashCode()))
-        result = ((result * 31) + (if ((this.pageCount == null)) 0 else pageCount.hashCode()))
-        result = ((result * 31) + (if ((this.orientation == null)) 0 else orientation.hashCode()))
-        result = ((result * 31) + (if ((this.pod == null)) 0 else pod.hashCode()))
-        result = ((result * 31) + (if ((this.fonts == null)) 0 else fonts.hashCode()))
-        result = ((result * 31) + (if ((this.name == null)) 0 else name.hashCode()))
-        result = ((result * 31) + (if ((this.width == null)) 0 else width.hashCode()))
-        result = ((result * 31) + (if ((this.conventions == null)) 0 else conventions.hashCode()))
-        result = ((result * 31) + (if ((this.scale == null)) 0 else scale.hashCode()))
-        result = ((result * 31) + (if ((this.contentType == null)) 0 else contentType.hashCode()))
-        result = ((result * 31) + (if ((this.height == null)) 0 else height.hashCode()))
-        result = ((result * 31) + (if ((this.edgeSpace == null)) 0 else edgeSpace.hashCode()))
+        var result = name?.hashCode() ?: 0
+        result = 31 * result + (contentType?.hashCode() ?: 0)
+        result = 31 * result + (pod?.hashCode() ?: 0)
+        result = 31 * result + (pageCount ?: 0)
+        result = 31 * result + (width?.hashCode() ?: 0)
+        result = 31 * result + (height?.hashCode() ?: 0)
+        result = 31 * result + (scale?.hashCode() ?: 0)
+        result = 31 * result + (orientation?.hashCode() ?: 0)
+        result = 31 * result + (colorSpace?.hashCode() ?: 0)
+        result = 31 * result + (edgeSpace?.hashCode() ?: 0)
+        result = 31 * result + (fonts?.hashCode() ?: 0)
+        result = 31 * result + (conventions?.hashCode() ?: 0)
         return result
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (other === this) {
-            return true
-        }
-        if ((other is TypesetScriptureSchema) == false) {
-            return false
-        }
-        val rhs = other
-        return (((((((((((((this.colorSpace == rhs.colorSpace) || ((this.colorSpace != null) && (this.colorSpace == rhs.colorSpace))) && ((this.pageCount === rhs.pageCount) || ((this.pageCount != null) && (this.pageCount == rhs.pageCount)))) && ((this.orientation == rhs.orientation) || ((this.orientation != null) && (this.orientation == rhs.orientation)))) && ((this.pod === rhs.pod) || ((this.pod != null) && (this.pod == rhs.pod)))) && ((this.fonts === rhs.fonts) || ((this.fonts != null) && (this.fonts == rhs.fonts)))) && ((this.name === rhs.name) || ((this.name != null) && (this.name == rhs.name)))) && ((this.width === rhs.width) || ((this.width != null) && (this.width == rhs.width)))) && ((this.conventions === rhs.conventions) || ((this.conventions != null) && conventions?.equals(
-            rhs.conventions
-        ) == true))) && ((this.scale === rhs.scale) || ((this.scale != null) && (this.scale == rhs.scale)))) && ((this.contentType === rhs.contentType) || ((this.contentType != null) && (this.contentType == rhs.contentType)))) && ((this.height === rhs.height) || ((this.height != null) && (this.height == rhs.height)))) && ((this.edgeSpace === rhs.edgeSpace) || ((this.edgeSpace != null) && edgeSpace?.equals(
-            rhs.edgeSpace
-        ) == true)))
+    override fun toString(): String {
+        return "TypesetScriptureSchema(name=$name, contentType=$contentType, pod=$pod, pageCount=$pageCount, width=$width, height=$height, scale=$scale, orientation=$orientation, colorSpace=$colorSpace, edgeSpace=$edgeSpace, fonts=$fonts, conventions=$conventions)"
     }
+
 
     enum class ColorSpace(private val value: String) {
         CMYK("cmyk"),

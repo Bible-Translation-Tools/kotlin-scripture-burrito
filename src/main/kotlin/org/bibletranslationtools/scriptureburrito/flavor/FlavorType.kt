@@ -26,43 +26,25 @@ class FlavorType(
     @set:JsonProperty("currentScope")
     @JsonProperty("currentScope")
     var currentScope: ScopeSchema? = null
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is FlavorType) return false
 
-    override fun toString(): String {
-        val sb = StringBuilder()
-        sb.append(FlavorType::class.java.name).append('@').append(
-            Integer.toHexString(
-                System.identityHashCode(
-                    this
-                )
-            )
-        ).append('[')
-        sb.append("name")
-        sb.append('=')
-        sb.append((if ((this.name == null)) "<null>" else this.name))
-        sb.append(',')
-        if (sb[sb.length - 1] == ',') {
-            sb.setCharAt((sb.length - 1), ']')
-        } else {
-            sb.append(']')
-        }
-        return sb.toString()
+        if (name != other.name) return false
+        if (flavor != other.flavor) return false
+        if (currentScope != other.currentScope) return false
+
+        return true
     }
 
     override fun hashCode(): Int {
-        var result = 1
-        result = ((result * 31) + (if ((this.name == null)) 0 else name.hashCode()))
+        var result = name.hashCode()
+        result = 31 * result + (flavor?.hashCode() ?: 0)
+        result = 31 * result + (currentScope?.hashCode() ?: 0)
         return result
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (other === this) {
-            return true
-        }
-        if ((other is FlavorType) == false) {
-            return false
-        }
-        val rhs = other
-        return ((this.name == rhs.name) || ((this.name != null) && (this.name == rhs.name)))
+    override fun toString(): String {
+        return "FlavorType(name=$name, flavor=$flavor, currentScope=$currentScope)"
     }
-
 }

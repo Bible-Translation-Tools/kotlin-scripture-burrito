@@ -9,5 +9,5 @@ fun LocalizedNamesSchema.getBooks(): Map<String, LocalizedText> {
         .filter {
             it.key.startsWith("book-")
         }
-        .associate { it.key.removePrefix("book-").toUpperCase(Locale.US) to it.value }
+        .associate { it.key.removePrefix("book-").uppercase(Locale.US) to it.value }
 }

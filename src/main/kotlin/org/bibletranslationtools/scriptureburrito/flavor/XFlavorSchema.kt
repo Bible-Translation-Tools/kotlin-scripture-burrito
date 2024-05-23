@@ -10,9 +10,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder
     "name"
 )
 class XFlavorSchema {
-
-
-
     @get:JsonProperty("name")
     @set:JsonProperty("name")
     @JsonProperty("name")

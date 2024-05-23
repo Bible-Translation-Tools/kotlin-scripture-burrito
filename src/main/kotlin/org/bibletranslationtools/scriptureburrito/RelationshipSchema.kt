@@ -10,30 +10,21 @@ class Relationships: ArrayList<RelationshipSchema>()
     "relationType", "flavor", "id", "revision", "variant"
 )
 class RelationshipSchema {
-
-
-
     @get:JsonProperty("relationType")
     @set:JsonProperty("relationType")
     @JsonProperty("relationType")
     var relationType: RelationType? = null
 
-
-
     @get:JsonProperty("flavor")
     @set:JsonProperty("flavor")
     @JsonProperty("flavor")
     var flavor: String? = null
-    
-    
-    
+
     @get:JsonProperty("id")
     @set:JsonProperty("id")
     @JsonProperty("id")
     @JsonPropertyDescription("Opaque system-specific identifier, prefixed with the name of the system as declared in idAuthorities.")
     var id: String? = null
-    
-    
     
     @get:JsonProperty("revision")
     @set:JsonProperty("revision")
@@ -45,64 +36,6 @@ class RelationshipSchema {
     @set:JsonProperty("variant")
     @JsonProperty("variant")
     var variant: String? = null
-
-    override fun toString(): String {
-        val sb = StringBuilder()
-        sb.append(RelationshipSchema::class.java.name).append('@').append(
-            Integer.toHexString(
-                System.identityHashCode(
-                    this
-                )
-            )
-        ).append('[')
-        sb.append("relationType")
-        sb.append('=')
-        sb.append((if ((this.relationType == null)) "<null>" else this.relationType))
-        sb.append(',')
-        sb.append("flavor")
-        sb.append('=')
-        sb.append((if ((this.flavor == null)) "<null>" else this.flavor))
-        sb.append(',')
-        sb.append("id")
-        sb.append('=')
-        sb.append((if ((this.id == null)) "<null>" else this.id))
-        sb.append(',')
-        sb.append("revision")
-        sb.append('=')
-        sb.append((if ((this.revision == null)) "<null>" else this.revision))
-        sb.append(',')
-        sb.append("variant")
-        sb.append('=')
-        sb.append((if ((this.variant == null)) "<null>" else this.variant))
-        sb.append(',')
-        if (sb[sb.length - 1] == ',') {
-            sb.setCharAt((sb.length - 1), ']')
-        } else {
-            sb.append(']')
-        }
-        return sb.toString()
-    }
-
-    override fun hashCode(): Int {
-        var result = 1
-        result = ((result * 31) + (if ((this.relationType == null)) 0 else relationType.hashCode()))
-        result = ((result * 31) + (if ((this.flavor == null)) 0 else flavor.hashCode()))
-        result = ((result * 31) + (if ((this.variant == null)) 0 else variant.hashCode()))
-        result = ((result * 31) + (if ((this.id == null)) 0 else id.hashCode()))
-        result = ((result * 31) + (if ((this.revision == null)) 0 else revision.hashCode()))
-        return result
-    }
-
-    override fun equals(other: Any?): Boolean {
-        if (other === this) {
-            return true
-        }
-        if ((other is RelationshipSchema) == false) {
-            return false
-        }
-        val rhs = other
-        return ((((((this.relationType == rhs.relationType) || ((this.relationType != null) && (this.relationType == rhs.relationType))) && ((this.flavor === rhs.flavor) || ((this.flavor != null) && (this.flavor == rhs.flavor)))) && ((this.variant === rhs.variant) || ((this.variant != null) && (this.variant == rhs.variant)))) && ((this.id === rhs.id) || ((this.id != null) && (this.id == rhs.id)))) && ((this.revision === rhs.revision) || ((this.revision != null) && (this.revision == rhs.revision))))
-    }
 
     enum class RelationType(private val value: String) {
         SOURCE("source"),
@@ -136,5 +69,31 @@ class RelationshipSchema {
                 return constant
             }
         }
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is RelationshipSchema) return false
+
+        if (relationType != other.relationType) return false
+        if (flavor != other.flavor) return false
+        if (id != other.id) return false
+        if (revision != other.revision) return false
+        if (variant != other.variant) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = relationType?.hashCode() ?: 0
+        result = 31 * result + (flavor?.hashCode() ?: 0)
+        result = 31 * result + (id?.hashCode() ?: 0)
+        result = 31 * result + (revision?.hashCode() ?: 0)
+        result = 31 * result + (variant?.hashCode() ?: 0)
+        return result
+    }
+
+    override fun toString(): String {
+        return "RelationshipSchema(relationType=$relationType, flavor=$flavor, id=$id, revision=$revision, variant=$variant)"
     }
 }

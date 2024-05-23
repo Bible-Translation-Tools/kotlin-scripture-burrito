@@ -10,8 +10,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder
 )
 class Checksum {
 
-
-
     @get:JsonProperty("md5")
     @set:JsonProperty("md5")
     @JsonProperty("md5")

@@ -8,8 +8,6 @@ import com.fasterxml.jackson.annotation.*
 )
 class ContinuousPoetry {
 
-
-
     @get:JsonProperty("lineIndicatorSpaced")
     @set:JsonProperty("lineIndicatorSpaced")
     @JsonProperty("lineIndicatorSpaced")

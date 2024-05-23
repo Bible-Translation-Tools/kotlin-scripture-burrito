@@ -46,67 +46,33 @@ class IngredientSchema {
     @JsonProperty("role")
     @JsonPropertyDescription("Roles which may be optionally attached to an ingredient.")
     var role: String? = null
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
 
-    override fun toString(): String {
-        val sb = StringBuilder()
-        sb.append(IngredientSchema::class.java.name).append('@').append(
-            Integer.toHexString(
-                System.identityHashCode(
-                    this
-                )
-            )
-        ).append('[')
-        sb.append("size")
-        sb.append('=')
-        sb.append((if ((this.size == null)) "<null>" else this.size))
-        sb.append(',')
-        sb.append("lang")
-        sb.append('=')
-        sb.append((if ((this.lang == null)) "<null>" else this.lang))
-        sb.append(',')
-        sb.append("mimeType")
-        sb.append('=')
-        sb.append((if ((this.mimeType == null)) "<null>" else this.mimeType))
-        sb.append(',')
-        sb.append("checksum")
-        sb.append('=')
-        sb.append((if ((this.checksum == null)) "<null>" else this.checksum))
-        sb.append(',')
-        sb.append("scope")
-        sb.append('=')
-        sb.append((if ((this.scope == null)) "<null>" else this.scope))
-        sb.append(',')
-        sb.append("role")
-        sb.append('=')
-        sb.append((if ((this.role == null)) "<null>" else this.role))
-        sb.append(',')
-        if (sb[sb.length - 1] == ',') {
-            sb.setCharAt((sb.length - 1), ']')
-        } else {
-            sb.append(']')
-        }
-        return sb.toString()
+        other as IngredientSchema
+
+        if (size != other.size) return false
+        if (lang != other.lang) return false
+        if (mimeType != other.mimeType) return false
+        if (checksum != other.checksum) return false
+        if (scope != other.scope) return false
+        if (role != other.role) return false
+
+        return true
     }
 
     override fun hashCode(): Int {
-        var result = 1
-        result = ((result * 31) + (if ((this.checksum == null)) 0 else checksum.hashCode()))
-        result = ((result * 31) + (if ((this.mimeType == null)) 0 else mimeType.hashCode()))
-        result = ((result * 31) + (if ((this.role == null)) 0 else role.hashCode()))
-        result = ((result * 31) + (if ((this.size == null)) 0 else size.hashCode()))
-        result = ((result * 31) + (if ((this.lang == null)) 0 else lang.hashCode()))
-        result = ((result * 31) + (if ((this.scope == null)) 0 else scope.hashCode()))
+        var result = size ?: 0
+        result = 31 * result + (lang?.hashCode() ?: 0)
+        result = 31 * result + (mimeType?.hashCode() ?: 0)
+        result = 31 * result + (checksum?.hashCode() ?: 0)
+        result = 31 * result + (scope?.hashCode() ?: 0)
+        result = 31 * result + (role?.hashCode() ?: 0)
         return result
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (other === this) {
-            return true
-        }
-        if ((other is IngredientSchema) == false) {
-            return false
-        }
-        val rhs = other
-        return (((((((this.checksum === rhs.checksum) || ((this.checksum != null) && (this.checksum == rhs.checksum))) && ((this.mimeType === rhs.mimeType) || ((this.mimeType != null) && (this.mimeType == rhs.mimeType)))) && ((this.role === rhs.role) || ((this.role != null) && (this.role == rhs.role)))) && ((this.size === rhs.size) || ((this.size != null) && (this.size == rhs.size)))) && ((this.lang === rhs.lang) || ((this.lang != null) && (this.lang == rhs.lang)))) && ((this.scope === rhs.scope) || ((this.scope != null) && (this.scope == rhs.scope))))
+    override fun toString(): String {
+        return "IngredientSchema(size=$size, lang=$lang, mimeType=$mimeType, checksum=$checksum, scope=$scope, role=$role)"
     }
 }

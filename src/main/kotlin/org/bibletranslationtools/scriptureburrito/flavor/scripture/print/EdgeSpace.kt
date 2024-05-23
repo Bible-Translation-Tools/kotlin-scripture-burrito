@@ -29,56 +29,27 @@ class EdgeSpace {
     @JsonProperty("outside")
     var outside: String? = null
 
-    override fun toString(): String {
-        val sb = StringBuilder()
-        sb.append(EdgeSpace::class.java.name).append('@').append(
-            Integer.toHexString(
-                System.identityHashCode(
-                    this
-                )
-            )
-        ).append('[')
-        sb.append("top")
-        sb.append('=')
-        sb.append((if ((this.top == null)) "<null>" else this.top))
-        sb.append(',')
-        sb.append("bottom")
-        sb.append('=')
-        sb.append((if ((this.bottom == null)) "<null>" else this.bottom))
-        sb.append(',')
-        sb.append("inside")
-        sb.append('=')
-        sb.append((if ((this.inside == null)) "<null>" else this.inside))
-        sb.append(',')
-        sb.append("outside")
-        sb.append('=')
-        sb.append((if ((this.outside == null)) "<null>" else this.outside))
-        sb.append(',')
-        if (sb[sb.length - 1] == ',') {
-            sb.setCharAt((sb.length - 1), ']')
-        } else {
-            sb.append(']')
-        }
-        return sb.toString()
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is EdgeSpace) return false
+
+        if (top != other.top) return false
+        if (bottom != other.bottom) return false
+        if (inside != other.inside) return false
+        if (outside != other.outside) return false
+
+        return true
     }
 
     override fun hashCode(): Int {
-        var result = 1
-        result = ((result * 31) + (if ((this.top == null)) 0 else top.hashCode()))
-        result = ((result * 31) + (if ((this.inside == null)) 0 else inside.hashCode()))
-        result = ((result * 31) + (if ((this.bottom == null)) 0 else bottom.hashCode()))
-        result = ((result * 31) + (if ((this.outside == null)) 0 else outside.hashCode()))
+        var result = top?.hashCode() ?: 0
+        result = 31 * result + (bottom?.hashCode() ?: 0)
+        result = 31 * result + (inside?.hashCode() ?: 0)
+        result = 31 * result + (outside?.hashCode() ?: 0)
         return result
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (other === this) {
-            return true
-        }
-        if ((other is EdgeSpace) == false) {
-            return false
-        }
-        val rhs = other
-        return (((((this.top === rhs.top) || ((this.top != null) && (this.top == rhs.top))) && ((this.inside === rhs.inside) || ((this.inside != null) && (this.inside == rhs.inside)))) && ((this.bottom === rhs.bottom) || ((this.bottom != null) && (this.bottom == rhs.bottom)))) && ((this.outside === rhs.outside) || ((this.outside != null) && (this.outside == rhs.outside))))
+    override fun toString(): String {
+        return "EdgeSpace(top=$top, bottom=$bottom, inside=$inside, outside=$outside)"
     }
 }

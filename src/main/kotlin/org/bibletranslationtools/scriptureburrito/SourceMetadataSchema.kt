@@ -24,7 +24,8 @@ import javax.xml.transform.Source
 )
 class SourceMetadataSchema(
     @JsonProperty("format")
-    format: org.bibletranslationtools.scriptureburrito.Format,
+    format: Format,
+
     @JsonProperty("meta")
     meta: SourceMetaSchema,
 
@@ -49,7 +50,7 @@ class SourceMetadataSchema(
 
     @JsonProperty("relationships")
     @JsonPropertyDescription("Describes a relationship to another burrito that may be obtained from an indicated server.")
-    relationships: List<RelationshipSchema> = ArrayList(),
+    relationships: MutableList<RelationshipSchema> = ArrayList(),
 
     @JsonProperty("languages")
     @JsonPropertyDescription("A list of all the languages of the contents of this burrito.")
@@ -57,11 +58,11 @@ class SourceMetadataSchema(
 
     @JsonProperty("targetAreas")
     @JsonPropertyDescription("A list of areas of the primary target audience of this burrito.")
-    targetAreas: List<org.bibletranslationtools.scriptureburrito.TargetAreaSchema> = ArrayList(),
+    targetAreas: MutableList<TargetAreaSchema> = ArrayList(),
 
     @JsonProperty("agencies")
     @JsonPropertyDescription("A list of agencies involved with the contents of the burrito or the work it is derived from.")
-    agencies: List<AgencySchema> = ArrayList(),
+    agencies: MutableList<AgencySchema> = ArrayList(),
 
     @JsonProperty("ingredients")
     @JsonPropertyDescription("Describes the various files contained by the burrito, keyed by the canonical forward-slashed pathname of the file.")
@@ -89,5 +90,4 @@ class SourceMetadataSchema(
     @set:JsonProperty("progress")
     @JsonProperty("progress")
     var progress: ProgressSchema? = null
-
 }

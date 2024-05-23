@@ -16,7 +16,7 @@ enum class Format(private val value: String) {
     }
 
     companion object {
-        private val CONSTANTS: MutableMap<String, org.bibletranslationtools.scriptureburrito.Format> = HashMap()
+        private val CONSTANTS: MutableMap<String, Format> = HashMap()
 
         init {
             for (c in values()) {
@@ -25,7 +25,7 @@ enum class Format(private val value: String) {
         }
 
         @JsonCreator
-        fun fromValue(value: String): org.bibletranslationtools.scriptureburrito.Format {
+        fun fromValue(value: String): Format {
             val constant = org.bibletranslationtools.scriptureburrito.Format.Companion.CONSTANTS[value]
             requireNotNull(constant) { value }
             return constant

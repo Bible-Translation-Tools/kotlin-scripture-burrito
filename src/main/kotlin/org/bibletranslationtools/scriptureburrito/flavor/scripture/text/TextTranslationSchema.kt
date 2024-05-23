@@ -1,7 +1,7 @@
 package org.bibletranslationtools.scriptureburrito.flavor.scripture.text
 
 import com.fasterxml.jackson.annotation.*
-import org.bibletranslationtools.scriptureburrito.flavor.scripture.Conventions
+import JsonNode
 
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -10,35 +10,25 @@ import org.bibletranslationtools.scriptureburrito.flavor.scripture.Conventions
 )
 class TextTranslationSchema {
 
-
-
     @get:JsonProperty("name")
     @set:JsonProperty("name")
     @JsonProperty("name")
     var name: String? = null
-
-
-
+    
     @get:JsonProperty("projectType")
     @set:JsonProperty("projectType")
     @JsonProperty("projectType")
     var projectType: ProjectType? = null
-
-
 
     @get:JsonProperty("translationType")
     @set:JsonProperty("translationType")
     @JsonProperty("translationType")
     var translationType: TranslationType? = null
 
-
-
     @get:JsonProperty("audience")
     @set:JsonProperty("audience")
     @JsonProperty("audience")
     var audience: Audience? = null
-
-
 
     @get:JsonProperty("usfmVersion")
     @set:JsonProperty("usfmVersion")
@@ -46,80 +36,46 @@ class TextTranslationSchema {
     var usfmVersion: String? = null
 
     @JsonProperty("conventions")
-    private var conventions: org.bibletranslationtools.scriptureburrito.flavor.scripture.Conventions? = null
+    private var conventions: Conventions? = null
 
     @JsonProperty("conventions")
-    fun getConventions(): org.bibletranslationtools.scriptureburrito.flavor.scripture.Conventions? {
+    fun getConventions(): Conventions? {
         return conventions
     }
 
     @JsonProperty("conventions")
-    fun setConventions(conventions: org.bibletranslationtools.scriptureburrito.flavor.scripture.Conventions?) {
+    fun setConventions(conventions: Conventions?) {
         this.conventions = conventions
     }
 
-    override fun toString(): String {
-        val sb = StringBuilder()
-        sb.append(TextTranslationSchema::class.java.name).append('@').append(
-            Integer.toHexString(
-                System.identityHashCode(
-                    this
-                )
-            )
-        ).append('[')
-        sb.append("name")
-        sb.append('=')
-        sb.append((if ((this.name == null)) "<null>" else this.name))
-        sb.append(',')
-        sb.append("projectType")
-        sb.append('=')
-        sb.append((if ((this.projectType == null)) "<null>" else this.projectType))
-        sb.append(',')
-        sb.append("translationType")
-        sb.append('=')
-        sb.append((if ((this.translationType == null)) "<null>" else this.translationType))
-        sb.append(',')
-        sb.append("audience")
-        sb.append('=')
-        sb.append((if ((this.audience == null)) "<null>" else this.audience))
-        sb.append(',')
-        sb.append("usfmVersion")
-        sb.append('=')
-        sb.append((if ((this.usfmVersion == null)) "<null>" else this.usfmVersion))
-        sb.append(',')
-        sb.append("conventions")
-        sb.append('=')
-        sb.append((if ((this.conventions == null)) "<null>" else this.conventions))
-        sb.append(',')
-        if (sb[sb.length - 1] == ',') {
-            sb.setCharAt((sb.length - 1), ']')
-        } else {
-            sb.append(']')
-        }
-        return sb.toString()
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is TextTranslationSchema) return false
+
+        if (name != other.name) return false
+        if (projectType != other.projectType) return false
+        if (translationType != other.translationType) return false
+        if (audience != other.audience) return false
+        if (usfmVersion != other.usfmVersion) return false
+        if (conventions != other.conventions) return false
+
+        return true
     }
 
     override fun hashCode(): Int {
-        var result = 1
-        result = ((result * 31) + (if ((this.name == null)) 0 else name.hashCode()))
-        result = ((result * 31) + (if ((this.projectType == null)) 0 else projectType.hashCode()))
-        result = ((result * 31) + (if ((this.conventions == null)) 0 else conventions.hashCode()))
-        result = ((result * 31) + (if ((this.audience == null)) 0 else audience.hashCode()))
-        result = ((result * 31) + (if ((this.translationType == null)) 0 else translationType.hashCode()))
-        result = ((result * 31) + (if ((this.usfmVersion == null)) 0 else usfmVersion.hashCode()))
+        var result = name?.hashCode() ?: 0
+        result = 31 * result + (projectType?.hashCode() ?: 0)
+        result = 31 * result + (translationType?.hashCode() ?: 0)
+        result = 31 * result + (audience?.hashCode() ?: 0)
+        result = 31 * result + (usfmVersion?.hashCode() ?: 0)
+        result = 31 * result + (conventions?.hashCode() ?: 0)
         return result
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (other === this) {
-            return true
-        }
-        if ((other is TextTranslationSchema) == false) {
-            return false
-        }
-        val rhs = other
-        return (((((((this.name === rhs.name) || ((this.name != null) && (this.name == rhs.name))) && ((this.projectType == rhs.projectType) || ((this.projectType != null) && (this.projectType == rhs.projectType)))) && ((this.conventions === rhs.conventions) || ((this.conventions != null) && conventions == rhs.conventions))) && ((this.audience == rhs.audience) || ((this.audience != null) && (this.audience == rhs.audience)))) && ((this.translationType == rhs.translationType) || ((this.translationType != null) && (this.translationType == rhs.translationType)))) && ((this.usfmVersion === rhs.usfmVersion) || ((this.usfmVersion != null) && (this.usfmVersion == rhs.usfmVersion))))
+    override fun toString(): String {
+        return "TextTranslationSchema(name=$name, projectType=$projectType, translationType=$translationType, audience=$audience, usfmVersion=$usfmVersion, conventions=$conventions)"
     }
+
 
     enum class Audience(private val value: String) {
         BASIC("basic"),

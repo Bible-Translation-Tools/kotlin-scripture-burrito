@@ -22,7 +22,7 @@ import org.bibletranslationtools.scriptureburrito.Format
 )
 class TemplateMetadataSchema(
     @JsonProperty("format")
-    format: org.bibletranslationtools.scriptureburrito.Format,
+    format: Format,
     @JsonProperty("meta")
     meta: TemplateMetaSchema,
 
@@ -47,7 +47,7 @@ class TemplateMetadataSchema(
 
     @JsonProperty("relationships")
     @JsonPropertyDescription("Describes a relationship to another burrito that may be obtained from an indicated server.")
-    relationships: List<RelationshipSchema> = ArrayList(),
+    relationships: MutableList<RelationshipSchema> = ArrayList(),
 
     @JsonProperty("languages")
     @JsonPropertyDescription("A list of all the languages of the contents of this burrito.")
@@ -55,11 +55,11 @@ class TemplateMetadataSchema(
 
     @JsonProperty("targetAreas")
     @JsonPropertyDescription("A list of areas of the primary target audience of this burrito.")
-    targetAreas: List<org.bibletranslationtools.scriptureburrito.TargetAreaSchema> = ArrayList(),
+    targetAreas: MutableList<TargetAreaSchema> = ArrayList(),
 
     @JsonProperty("agencies")
     @JsonPropertyDescription("A list of agencies involved with the contents of the burrito or the work it is derived from.")
-    agencies: List<AgencySchema> = ArrayList(),
+    agencies: MutableList<AgencySchema> = ArrayList(),
 
     @JsonProperty("ingredients")
     @JsonPropertyDescription("Describes the various files contained by the burrito, keyed by the canonical forward-slashed pathname of the file.")
@@ -82,6 +82,4 @@ class TemplateMetadataSchema(
     agencies,
     ingredients,
     localizedNames
-) {
-
-}
+)

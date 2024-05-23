@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.module.SimpleModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import org.bibletranslationtools.scriptureburrito.flavor.FlavorSchema
 import org.bibletranslationtools.scriptureburrito.flavor.FlavorSchemaDeserializer
 import java.io.IOException
@@ -20,7 +21,6 @@ import java.io.IOException
     "meta",
     "type"
 )
-// @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.PROPERTY, property = "meta")
 @JsonSubTypes(
     JsonSubTypes.Type(value = DerivedMetadataSchema::class, name = "derived"),
     JsonSubTypes.Type(value = SourceMetadataSchema::class, name = "source"),
@@ -30,7 +30,7 @@ abstract class MetadataSchema(
     @get:JsonProperty("format")
     @set:JsonProperty("format")
     @JsonProperty("format")
-    var format: org.bibletranslationtools.scriptureburrito.Format,
+    var format: Format,
 
     @get:JsonProperty("meta")
     @set:JsonProperty("meta")
@@ -71,7 +71,7 @@ abstract class MetadataSchema(
     @set:JsonProperty("relationships")
     @JsonProperty("relationships")
     @JsonPropertyDescription("Describes a relationship to another burrito that may be obtained from an indicated server.")
-    var relationships: List<RelationshipSchema> = ArrayList(),
+    var relationships: MutableList<RelationshipSchema> = ArrayList(),
 
     @get:JsonProperty("languages")
     @set:JsonProperty("languages")
@@ -83,13 +83,13 @@ abstract class MetadataSchema(
     @set:JsonProperty("targetAreas")
     @JsonProperty("targetAreas")
     @JsonPropertyDescription("A list of areas of the primary target audience of this burrito.")
-    var targetAreas: List<org.bibletranslationtools.scriptureburrito.TargetAreaSchema> = ArrayList(),
+    var targetAreas: MutableList<TargetAreaSchema> = ArrayList(),
 
     @get:JsonProperty("agencies")
     @set:JsonProperty("agencies")
     @JsonProperty("agencies")
     @JsonPropertyDescription("A list of agencies involved with the contents of the burrito or the work it is derived from.")
-    var agencies: List<AgencySchema> = ArrayList(),
+    var agencies: MutableList<AgencySchema> = ArrayList(),
 
     @get:JsonProperty("ingredients")
     @set:JsonProperty("ingredients")
@@ -102,15 +102,59 @@ abstract class MetadataSchema(
     @JsonProperty("localizedNames")
     @JsonPropertyDescription("Contains localized names for books, etc.")
     var localizedNames: LocalizedNamesSchema = LocalizedNamesSchema()
-)
+) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is MetadataSchema) return false
 
-class MetadataDeserializer : JsonDeserializer<MetadataSchema?>() {
+        if (format != other.format) return false
+        if (meta != other.meta) return false
+        if (copyright != other.copyright) return false
+        if (idAuthorities != other.idAuthorities) return false
+        if (identification != other.identification) return false
+        if (confidential != other.confidential) return false
+        if (type != other.type) return false
+        if (relationships != other.relationships) return false
+        if (languages != other.languages) return false
+        if (targetAreas != other.targetAreas) return false
+        if (agencies != other.agencies) return false
+        if (ingredients != other.ingredients) return false
+        if (localizedNames != other.localizedNames) return false
 
-    val mapper = ObjectMapper()
-        .registerModules(
-            KotlinModule(),
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = format.hashCode()
+        result = 31 * result + meta.hashCode()
+        result = 31 * result + copyright.hashCode()
+        result = 31 * result + (idAuthorities?.hashCode() ?: 0)
+        result = 31 * result + (identification?.hashCode() ?: 0)
+        result = 31 * result + (confidential?.hashCode() ?: 0)
+        result = 31 * result + (type?.hashCode() ?: 0)
+        result = 31 * result + relationships.hashCode()
+        result = 31 * result + languages.hashCode()
+        result = 31 * result + targetAreas.hashCode()
+        result = 31 * result + agencies.hashCode()
+        result = 31 * result + ingredients.hashCode()
+        result = 31 * result + localizedNames.hashCode()
+        return result
+    }
+
+    override fun toString(): String {
+        return "MetadataSchema(format=$format, meta=$meta, copyright=$copyright, idAuthorities=$idAuthorities, identification=$identification, confidential=$confidential, type=$type, relationships=$relationships, languages=$languages, targetAreas=$targetAreas, agencies=$agencies, ingredients=$ingredients, localizedNames=$localizedNames)"
+    }
+}
+
+class MetadataDeserializer : JsonDeserializer<MetadataSchema>() {
+
+    private val mapper = ObjectMapper()
+    init {
+        mapper.registerKotlinModule()
+        mapper.registerModules(
             SimpleModule().addDeserializer(FlavorSchema::class.java, FlavorSchemaDeserializer())
         )
+    }
 
     @Throws(IOException::class, JsonProcessingException::class)
     override fun deserialize(jp: JsonParser, ctx: DeserializationContext?): MetadataSchema {
@@ -119,22 +163,13 @@ class MetadataDeserializer : JsonDeserializer<MetadataSchema?>() {
         val category = node["meta"]["category"].asText()
 
         val meta: Meta = mapper.readValue(node["meta"].toString(), Meta::class.java)
-        // Category gets read by Jackson in determining the subtype and won't get set via the constructor
-        // thus, we have to manually assign it as a lateinit
-        //meta.category = mapper.readValue(node["meta"]["category"].toString(), Category::class.java)
 
         val type: TypeSchema = mapper.readValue(node["type"].toString(), TypeSchema::class.java)
         val format = mapper.readValue(node["format"].toString(), org.bibletranslationtools.scriptureburrito.Format::class.java)
         val idAuthorities = mapper.readValue(node["idAuthorities"].toString(), IdAuthoritiesSchema::class.java)
         val identification = mapper.readValue(node["identification"].toString(), IdentificationSchema::class.java)
         val confidential = mapper.readValue(node["confidential"].toString(), Boolean::class.java)
-
-//        val targetAreas = mapper.readValue(node["targetAreas"].toString(), TargetAreas::class.java)
-//      val agencies = mapper.readValue(node["agencies"].toString(), Agencies::class.java)
-//        val relationships = mapper.readValue(node["relationships"].toString(), Relationships::class.java)
         val copyright = mapper.readValue(node["copyright"].toString(), CopyrightSchema::class.java)
-
-
         val languages = mapper.readValue(node["languages"].toString(), Languages::class.java)
         val ingredients = mapper.readValue(node["ingredients"].toString(), IngredientsSchema::class.java)
         val localizedNames = mapper.readValue(node["localizedNames"].toString(), LocalizedNamesSchema::class.java)

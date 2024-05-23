@@ -19,47 +19,23 @@ class ProgressSchema {
     @set:JsonProperty("dateCompleted")
     @JsonProperty("dateCompleted")
     var dateCompleted: String? = null
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is ProgressSchema) return false
 
-    override fun toString(): String {
-        val sb = StringBuilder()
-        sb.append(ProgressSchema::class.java.name).append('@').append(
-            Integer.toHexString(
-                System.identityHashCode(
-                    this
-                )
-            )
-        ).append('[')
-        sb.append("dateStarted")
-        sb.append('=')
-        sb.append((if ((this.dateStarted == null)) "<null>" else this.dateStarted))
-        sb.append(',')
-        sb.append("dateCompleted")
-        sb.append('=')
-        sb.append((if ((this.dateCompleted == null)) "<null>" else this.dateCompleted))
-        sb.append(',')
-        if (sb[sb.length - 1] == ',') {
-            sb.setCharAt((sb.length - 1), ']')
-        } else {
-            sb.append(']')
-        }
-        return sb.toString()
+        if (dateStarted != other.dateStarted) return false
+        if (dateCompleted != other.dateCompleted) return false
+
+        return true
     }
 
     override fun hashCode(): Int {
-        var result = 1
-        result = ((result * 31) + (if ((this.dateStarted == null)) 0 else dateStarted.hashCode()))
-        result = ((result * 31) + (if ((this.dateCompleted == null)) 0 else dateCompleted.hashCode()))
+        var result = dateStarted?.hashCode() ?: 0
+        result = 31 * result + (dateCompleted?.hashCode() ?: 0)
         return result
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (other === this) {
-            return true
-        }
-        if ((other is ProgressSchema) == false) {
-            return false
-        }
-        val rhs = other
-        return (((this.dateStarted === rhs.dateStarted) || ((this.dateStarted != null) && (this.dateStarted == rhs.dateStarted))) && ((this.dateCompleted === rhs.dateCompleted) || ((this.dateCompleted != null) && (this.dateCompleted == rhs.dateCompleted))))
+    override fun toString(): String {
+        return "ProgressSchema(dateStarted=$dateStarted, dateCompleted=$dateCompleted)"
     }
 }

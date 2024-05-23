@@ -15,23 +15,17 @@ class Processor {
     @JsonProperty("name")
     var name: String? = null
 
-
-
     @get:JsonProperty("version")
     @set:JsonProperty("version")
     @JsonProperty("version")
     var version: String? = null
 
-
     @JsonProperty("table")
     private var table: Table? = null
-
-
     @JsonProperty("table")
     fun getTable(): Table? {
         return table
     }
-
 
     @JsonProperty("table")
     fun setTable(table: Table?) {

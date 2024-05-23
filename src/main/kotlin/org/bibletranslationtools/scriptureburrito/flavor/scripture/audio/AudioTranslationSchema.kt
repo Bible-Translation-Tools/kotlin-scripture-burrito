@@ -15,7 +15,7 @@ class AudioFlavorSchema(
     @set:JsonProperty("performance")
     @JsonProperty("performance")
     @JsonDeserialize(`as` = LinkedHashSet::class)
-    private var performance: Set<Performance> = LinkedHashSet(),
+    private var performance: MutableSet<Performance> = LinkedHashSet(),
 
     @get:JsonProperty("formats")
     @set:JsonProperty("formats")
@@ -27,17 +27,16 @@ class AudioFlavorSchema(
     @JsonProperty("name")
     override lateinit var name: String
 
-
     @JsonProperty("conventions")
     private var conventions: AudioConventions? = null
 
     @JsonProperty("performance")
-    fun getPerformance(): Set<Performance> {
+    fun getPerformance(): MutableSet<Performance> {
         return performance
     }
 
     @JsonProperty("performance")
-    fun setPerformance(performance: Set<Performance>) {
+    fun setPerformance(performance: MutableSet<Performance>) {
         this.performance = performance
     }
 
@@ -59,5 +58,31 @@ class AudioFlavorSchema(
     @JsonProperty("conventions")
     fun setAudioConventions(conventions: AudioConventions?) {
         this.conventions = conventions
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is AudioFlavorSchema) return false
+        if (!super.equals(other)) return false
+
+        if (performance != other.performance) return false
+        if (formats != other.formats) return false
+        if (name != other.name) return false
+        if (conventions != other.conventions) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = super.hashCode()
+        result = 31 * result + performance.hashCode()
+        result = 31 * result + formats.hashCode()
+        result = 31 * result + name.hashCode()
+        result = 31 * result + (conventions?.hashCode() ?: 0)
+        return result
+    }
+
+    override fun toString(): String {
+        return "AudioFlavorSchema(performance=$performance, formats=$formats, name='$name', conventions=$conventions)"
     }
 }

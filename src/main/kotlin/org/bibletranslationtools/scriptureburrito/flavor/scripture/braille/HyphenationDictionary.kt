@@ -10,8 +10,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder
 )
 class HyphenationDictionary {
 
-
-
     @get:JsonProperty("src")
     @set:JsonProperty("src")
     @JsonProperty("src")

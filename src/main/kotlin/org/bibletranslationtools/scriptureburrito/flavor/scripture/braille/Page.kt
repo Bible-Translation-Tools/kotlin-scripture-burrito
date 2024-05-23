@@ -10,35 +10,25 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder
 )
 class Page {
 
-
-
     @get:JsonProperty("charsPerLine")
     @set:JsonProperty("charsPerLine")
     @JsonProperty("charsPerLine")
     var charsPerLine: Double? = null
-
-
 
     @get:JsonProperty("linesPerPage")
     @set:JsonProperty("linesPerPage")
     @JsonProperty("linesPerPage")
     var linesPerPage: Double? = null
 
-
-
     @get:JsonProperty("defaultMarginWidth")
     @set:JsonProperty("defaultMarginWidth")
     @JsonProperty("defaultMarginWidth")
     var defaultMarginWidth: Double? = null
 
-
-
     @get:JsonProperty("versoLastLineBlank")
     @set:JsonProperty("versoLastLineBlank")
     @JsonProperty("versoLastLineBlank")
     var versoLastLineBlank: Boolean? = null
-
-
 
     @get:JsonProperty("carryLines")
     @set:JsonProperty("carryLines")

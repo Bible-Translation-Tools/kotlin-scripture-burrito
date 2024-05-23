@@ -20,28 +20,20 @@ class Content {
     @JsonProperty("chapterNumberStyle")
     var chapterNumberStyle: ChapterNumberStyle? = null
 
-
-
     @get:JsonProperty("chapterHeadingsNumberFirst")
     @set:JsonProperty("chapterHeadingsNumberFirst")
     @JsonProperty("chapterHeadingsNumberFirst")
     var chapterHeadingsNumberFirst: Boolean? = null
-
-
 
     @get:JsonProperty("versedParagraphs")
     @set:JsonProperty("versedParagraphs")
     @JsonProperty("versedParagraphs")
     var versedParagraphs: Boolean? = null
 
-
-
     @get:JsonProperty("verseSeparator")
     @set:JsonProperty("verseSeparator")
     @JsonProperty("verseSeparator")
     var verseSeparator: String? = null
-
-
 
     @get:JsonProperty("includeIntros")
     @set:JsonProperty("includeIntros")

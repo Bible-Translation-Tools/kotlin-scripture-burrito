@@ -48,7 +48,7 @@ class DerivedMetadataSchema(
 
     @JsonProperty("relationships")
     @JsonPropertyDescription("Describes a relationship to another burrito that may be obtained from an indicated server.")
-    relationships: List<RelationshipSchema> = ArrayList(),
+    relationships: MutableList<RelationshipSchema> = ArrayList(),
 
     @JsonProperty("languages")
     @JsonPropertyDescription("A list of all the languages of the contents of this burrito.")
@@ -56,11 +56,11 @@ class DerivedMetadataSchema(
 
     @JsonProperty("targetAreas")
     @JsonPropertyDescription("A list of areas of the primary target audience of this burrito.")
-    targetAreas: List<org.bibletranslationtools.scriptureburrito.TargetAreaSchema> = ArrayList(),
+    targetAreas: MutableList<TargetAreaSchema> = ArrayList(),
 
     @JsonProperty("agencies")
     @JsonPropertyDescription("A list of agencies involved with the contents of the burrito or the work it is derived from.")
-    agencies: List<AgencySchema> = ArrayList(),
+    agencies: MutableList<AgencySchema> = ArrayList(),
 
     @JsonProperty("ingredients")
     @JsonPropertyDescription("Describes the various files contained by the burrito, keyed by the canonical forward-slashed pathname of the file.")
@@ -95,5 +95,26 @@ class DerivedMetadataSchema(
     @set:JsonProperty("recipe")
     @JsonProperty("recipe")
     @JsonPropertyDescription("Scripture Burrito recipes.")
-    var recipe: List<RecipeSchema>? = ArrayList()
+    var recipe: MutableList<RecipeSchema>? = ArrayList()
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as DerivedMetadataSchema
+
+        if (promotion != other.promotion) return false
+        if (recipe != other.recipe) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = promotion?.hashCode() ?: 0
+        result = 31 * result + (recipe?.hashCode() ?: 0)
+        return result
+    }
+
+    override fun toString(): String {
+        return "DerivedMetadataSchema(promotion=$promotion, recipe=$recipe)"
+    }
 }

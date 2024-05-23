@@ -8,20 +8,20 @@ class Languages: ArrayList<LanguageSchema>()
 @JsonPropertyOrder(
     "tag", "name", "numberingSystem", "rod", "scriptDirection"
 )
-class LanguageSchema {
-
+class LanguageSchema(
     @get:JsonProperty("tag")
     @set:JsonProperty("tag")
     @JsonProperty("tag")
     @JsonPropertyDescription("A valid IETF language tag as specified by BCP 47.")
-    var tag: String? = null
+    var tag: String,
     
     @get:JsonProperty("name")
     @set:JsonProperty("name")
     @JsonProperty("name")
     @JsonPropertyDescription("A textual string specified in one or multiple languages, indexed by IETF language tag.")
     var name: HashMap<String, String> = hashMapOf()
-    
+) {
+
     @get:JsonProperty("numberingSystem")
     @set:JsonProperty("numberingSystem")
     @JsonProperty("numberingSystem")
@@ -39,66 +39,6 @@ class LanguageSchema {
     @JsonProperty("scriptDirection")
     var scriptDirection: ScriptDirection? = null
 
-    override fun toString(): String {
-        val sb = StringBuilder()
-        sb.append(LanguageSchema::class.java.name).append('@').append(
-            Integer.toHexString(
-                System.identityHashCode(
-                    this
-                )
-            )
-        ).append('[')
-        sb.append("tag")
-        sb.append('=')
-        sb.append((if ((this.tag == null)) "<null>" else this.tag))
-        sb.append(',')
-        sb.append("name")
-        sb.append('=')
-        sb.append((if ((this.name == null)) "<null>" else this.name))
-        sb.append(',')
-        sb.append("numberingSystem")
-        sb.append('=')
-        sb.append((if ((this.numberingSystem == null)) "<null>" else this.numberingSystem))
-        sb.append(',')
-        sb.append("rod")
-        sb.append('=')
-        sb.append((if ((this.rod == null)) "<null>" else this.rod))
-        sb.append(',')
-        sb.append("scriptDirection")
-        sb.append('=')
-        sb.append((if ((this.scriptDirection == null)) "<null>" else this.scriptDirection))
-        sb.append(',')
-        if (sb[sb.length - 1] == ',') {
-            sb.setCharAt((sb.length - 1), ']')
-        } else {
-            sb.append(']')
-        }
-        return sb.toString()
-    }
-
-    override fun hashCode(): Int {
-        var result = 1
-        result = ((result * 31) + (if ((this.name == null)) 0 else name.hashCode()))
-        result = ((result * 31) + (if ((this.tag == null)) 0 else tag.hashCode()))
-        result = ((result * 31) + (if ((this.numberingSystem == null)) 0 else numberingSystem.hashCode()))
-        result = ((result * 31) + (if ((this.rod == null)) 0 else rod.hashCode()))
-        result = ((result * 31) + (if ((this.scriptDirection == null)) 0 else scriptDirection.hashCode()))
-        return result
-    }
-
-    override fun equals(other: Any?): Boolean {
-        if (other === this) {
-            return true
-        }
-        if ((other is LanguageSchema) == false) {
-            return false
-        }
-        val rhs = other
-        return ((((((this.name === rhs.name) || ((this.name != null) && (this.name == rhs.name))) && ((this.tag === rhs.tag) || ((this.tag != null) && (this.tag == rhs.tag)))) && ((this.numberingSystem == rhs.numberingSystem) || ((this.numberingSystem != null) && (this.numberingSystem == rhs.numberingSystem)))) && ((this.rod === rhs.rod) || ((this.rod != null) && (this.rod == rhs.rod)))) && ((this.scriptDirection == rhs.scriptDirection) || ((this.scriptDirection != null) && (this.scriptDirection == rhs.scriptDirection))))
-    }
-
-
-    
     enum class NumberingSystemSchema(private val value: String) {
         ADLM("adlm"),
         AHOM("ahom"),
@@ -243,5 +183,33 @@ class LanguageSchema {
                 return constant
             }
         }
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as LanguageSchema
+
+        if (tag != other.tag) return false
+        if (name != other.name) return false
+        if (numberingSystem != other.numberingSystem) return false
+        if (rod != other.rod) return false
+        if (scriptDirection != other.scriptDirection) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = tag.hashCode() ?: 0
+        result = 31 * result + name.hashCode()
+        result = 31 * result + (numberingSystem?.hashCode() ?: 0)
+        result = 31 * result + (rod?.hashCode() ?: 0)
+        result = 31 * result + (scriptDirection?.hashCode() ?: 0)
+        return result
+    }
+
+    override fun toString(): String {
+        return "LanguageSchema(tag='$tag', name=$name, numberingSystem=$numberingSystem, rod=$rod, scriptDirection=$scriptDirection)"
     }
 }

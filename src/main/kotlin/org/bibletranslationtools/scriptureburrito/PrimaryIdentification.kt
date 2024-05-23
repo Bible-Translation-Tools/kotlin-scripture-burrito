@@ -8,14 +8,4 @@ import com.fasterxml.jackson.databind.JsonNode
 /**
  * Due to Primary being json objects of arbitrary schema, use a JsonNode
  */
-class PrimaryIdentification: HashMap<String, JsonNode>() {
-    override fun toString(): String {
-        val sb = StringBuilder()
-        sb.append("{")
-        keys.forEach {
-            sb.append("$it:${this[it].toString()}")
-        }
-        sb.append("}")
-        return sb.toString()
-    }
-}
+class PrimaryIdentification: HashMap<String, JsonNode>()
