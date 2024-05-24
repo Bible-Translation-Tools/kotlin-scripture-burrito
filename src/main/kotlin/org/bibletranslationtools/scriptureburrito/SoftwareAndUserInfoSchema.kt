@@ -35,6 +35,7 @@ class SoftwareAndUserInfoSchema {
     @JsonProperty("userName")
     @JsonPropertyDescription("The user's full name, if known.")
     var userName: String? = null
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is SoftwareAndUserInfoSchema) return false

@@ -79,78 +79,36 @@ class Content {
         this.crossReferences = crossReferences
     }
 
-    override fun toString(): String {
-        val sb = StringBuilder()
-        sb.append(Content::class.java.name).append('@').append(
-            Integer.toHexString(
-                System.identityHashCode(
-                    this
-                )
-            )
-        ).append('[')
-        sb.append("chapterNumberStyle")
-        sb.append('=')
-        sb.append((if ((this.chapterNumberStyle == null)) "<null>" else this.chapterNumberStyle))
-        sb.append(',')
-        sb.append("chapterHeadingsNumberFirst")
-        sb.append('=')
-        sb.append((if ((this.chapterHeadingsNumberFirst == null)) "<null>" else this.chapterHeadingsNumberFirst))
-        sb.append(',')
-        sb.append("versedParagraphs")
-        sb.append('=')
-        sb.append((if ((this.versedParagraphs == null)) "<null>" else this.versedParagraphs))
-        sb.append(',')
-        sb.append("verseSeparator")
-        sb.append('=')
-        sb.append((if ((this.verseSeparator == null)) "<null>" else this.verseSeparator))
-        sb.append(',')
-        sb.append("includeIntros")
-        sb.append('=')
-        sb.append((if ((this.includeIntros == null)) "<null>" else this.includeIntros))
-        sb.append(',')
-        sb.append("footnotes")
-        sb.append('=')
-        sb.append((if ((this.footnotes == null)) "<null>" else this.footnotes))
-        sb.append(',')
-        sb.append("characterStyles")
-        sb.append('=')
-        sb.append((if ((this.characterStyles == null)) "<null>" else this.characterStyles))
-        sb.append(',')
-        sb.append("crossReferences")
-        sb.append('=')
-        sb.append((if ((this.crossReferences == null)) "<null>" else this.crossReferences))
-        sb.append(',')
-        if (sb[sb.length - 1] == ',') {
-            sb.setCharAt((sb.length - 1), ']')
-        } else {
-            sb.append(']')
-        }
-        return sb.toString()
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is Content) return false
+
+        if (chapterNumberStyle != other.chapterNumberStyle) return false
+        if (chapterHeadingsNumberFirst != other.chapterHeadingsNumberFirst) return false
+        if (versedParagraphs != other.versedParagraphs) return false
+        if (verseSeparator != other.verseSeparator) return false
+        if (includeIntros != other.includeIntros) return false
+        if (footnotes != other.footnotes) return false
+        if (characterStyles != other.characterStyles) return false
+        if (crossReferences != other.crossReferences) return false
+
+        return true
     }
 
     override fun hashCode(): Int {
-        var result = 1
-        result = ((result * 31) + (if ((this.versedParagraphs == null)) 0 else versedParagraphs.hashCode()))
-        result =
-            ((result * 31) + (if ((this.chapterHeadingsNumberFirst == null)) 0 else chapterHeadingsNumberFirst.hashCode()))
-        result = ((result * 31) + (if ((this.chapterNumberStyle == null)) 0 else chapterNumberStyle.hashCode()))
-        result = ((result * 31) + (if ((this.includeIntros == null)) 0 else includeIntros.hashCode()))
-        result = ((result * 31) + (if ((this.verseSeparator == null)) 0 else verseSeparator.hashCode()))
-        result = ((result * 31) + (if ((this.characterStyles == null)) 0 else characterStyles.hashCode()))
-        result = ((result * 31) + (if ((this.footnotes == null)) 0 else footnotes.hashCode()))
-        result = ((result * 31) + (if ((this.crossReferences == null)) 0 else crossReferences.hashCode()))
+        var result = chapterNumberStyle?.hashCode() ?: 0
+        result = 31 * result + (chapterHeadingsNumberFirst?.hashCode() ?: 0)
+        result = 31 * result + (versedParagraphs?.hashCode() ?: 0)
+        result = 31 * result + (verseSeparator?.hashCode() ?: 0)
+        result = 31 * result + (includeIntros?.hashCode() ?: 0)
+        result = 31 * result + (footnotes?.hashCode() ?: 0)
+        result = 31 * result + (characterStyles?.hashCode() ?: 0)
+        result = 31 * result + (crossReferences?.hashCode() ?: 0)
         return result
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (other === this) {
-            return true
-        }
-        if ((other is Content) == false) {
-            return false
-        }
-        val rhs = other
-        return (((((((((this.versedParagraphs === rhs.versedParagraphs) || ((this.versedParagraphs != null) && (this.versedParagraphs == rhs.versedParagraphs))) && ((this.chapterHeadingsNumberFirst === rhs.chapterHeadingsNumberFirst) || ((this.chapterHeadingsNumberFirst != null) && (this.chapterHeadingsNumberFirst == rhs.chapterHeadingsNumberFirst)))) && ((this.chapterNumberStyle == rhs.chapterNumberStyle) || ((this.chapterNumberStyle != null) && (this.chapterNumberStyle == rhs.chapterNumberStyle)))) && ((this.includeIntros === rhs.includeIntros) || ((this.includeIntros != null) && (this.includeIntros == rhs.includeIntros)))) && ((this.verseSeparator === rhs.verseSeparator) || ((this.verseSeparator != null) && (this.verseSeparator == rhs.verseSeparator)))) && ((this.characterStyles === rhs.characterStyles) || ((this.characterStyles != null) && characterStyles == rhs.characterStyles))) && ((this.footnotes === rhs.footnotes) || ((this.footnotes != null) && footnotes == rhs.footnotes))) && ((this.crossReferences === rhs.crossReferences) || ((this.crossReferences != null) && crossReferences == rhs.crossReferences)))
+    override fun toString(): String {
+        return "Content(chapterNumberStyle=$chapterNumberStyle, chapterHeadingsNumberFirst=$chapterHeadingsNumberFirst, versedParagraphs=$versedParagraphs, verseSeparator=$verseSeparator, includeIntros=$includeIntros, footnotes=$footnotes, characterStyles=$characterStyles, crossReferences=$crossReferences)"
     }
 
     enum class ChapterNumberStyle(private val value: String) {

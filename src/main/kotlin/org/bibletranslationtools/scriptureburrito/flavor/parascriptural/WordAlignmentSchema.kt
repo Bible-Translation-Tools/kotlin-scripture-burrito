@@ -22,39 +22,31 @@ class WordAlignmentSchema {
     @JsonProperty("autoAlignerVersion")
     var autoAlignerVersion: String? = null
 
-
-
     @get:JsonProperty("stopWords")
     @set:JsonProperty("stopWords")
     @JsonProperty("stopWords")
     var stopWords: Boolean? = null
 
-
     @JsonProperty("stemmer")
     private var stemmer: Stemmer? = null
 
-
     @JsonProperty("manualAlignment")
     private var manualAlignment: ManualAlignment? = null
-
 
     @JsonProperty("stemmer")
     fun getStemmer(): Stemmer? {
         return stemmer
     }
 
-
     @JsonProperty("stemmer")
     fun setStemmer(stemmer: Stemmer?) {
         this.stemmer = stemmer
     }
 
-
     @JsonProperty("manualAlignment")
     fun getManualAlignment(): ManualAlignment? {
         return manualAlignment
     }
-
 
     @JsonProperty("manualAlignment")
     fun setManualAlignment(manualAlignment: ManualAlignment?) {

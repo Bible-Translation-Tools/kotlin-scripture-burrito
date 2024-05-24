@@ -23,6 +23,7 @@ class Stemmer {
     @set:JsonProperty("affixes")
     @JsonProperty("affixes")
     var affixes: Boolean? = null
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is Stemmer) return false

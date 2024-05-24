@@ -64,26 +64,3 @@ abstract class FlavorSchema {
         return true
     }
 }
-
-class FlavorSchemaDeserializer : JsonDeserializer<FlavorSchema?>() {
-    val mapper = ObjectMapper().registerModules(KotlinModule())
-
-    @Throws(IOException::class, JsonProcessingException::class)
-    override fun deserialize(jp: JsonParser, ctx: DeserializationContext?): FlavorSchema {
-        val node: JsonNode = jp.readValueAsTree() // Get the complete JSON structure
-
-        // Extract the "format" field from the package object (assuming it's nested)
-        val format = node["name"].asText()
-
-        val flavor: FlavorSchema = when (format) {
-            "textTranslation" -> mapper.readValue(node.toString(), ScriptureFlavorSchema::class.java)
-            "audioTranslation" -> {
-                val parsed = mapper.readValue(node.toString(), AudioFlavorSchema::class.java)
-                parsed
-            }
-
-            else -> throw JsonMappingException("Unsupported format string: $format")
-        }
-        return flavor
-    }
-}
