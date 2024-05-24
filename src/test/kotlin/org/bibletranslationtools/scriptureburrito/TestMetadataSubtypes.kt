@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import org.bibletranslationtools.scriptureburrito.flavor.FlavorType
 import org.bibletranslationtools.scriptureburrito.flavor.scripture.audio.*
-import org.junit.Assert
 import org.junit.Test
 import java.text.SimpleDateFormat
 import java.time.Instant
@@ -137,7 +136,7 @@ class TestMetadataSubtypes {
 
     @Test
     fun testDeserializesToTemplateMetadata() {
-        val audio = mapper.writeValueAsString(sourceAudio)
+        val audio = mapper.writeValueAsString(templateAudio)
         val read = mapper.readTree(audio)
         assert(read["format"].asText() == Format.SCRIPTURE_BURRITO.value())
         assert(read["meta"]["category"].asText() == "template")
@@ -148,7 +147,7 @@ class TestMetadataSubtypes {
 
     @Test
     fun testDeserializesToDerivedMetadata() {
-        val audio = mapper.writeValueAsString(sourceAudio)
+        val audio = mapper.writeValueAsString(derivedAudio)
         val read = mapper.readTree(audio)
         assert(read["format"].asText() == Format.SCRIPTURE_BURRITO.value())
         assert(read["meta"]["category"].asText() == "derived")
