@@ -76,7 +76,6 @@ class TextTranslationSchema: FlavorSchema() {
         return "TextTranslationSchema(name=$name, projectType=$projectType, translationType=$translationType, audience=$audience, usfmVersion=$usfmVersion, conventions=$conventions)"
     }
 
-
     enum class Audience(private val value: String) {
         BASIC("basic"),
         COMMON("common"),

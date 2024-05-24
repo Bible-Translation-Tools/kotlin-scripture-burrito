@@ -31,36 +31,20 @@ import java.io.IOException
 abstract class FlavorSchema {
 
     abstract var name: String
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is FlavorSchema) return false
 
-    override fun toString(): String {
-        val sb = StringBuilder()
-        sb.append(FlavorSchema::class.java.name).append('@').append(
-            Integer.toHexString(
-                System.identityHashCode(
-                    this
-                )
-            )
-        ).append('[')
-        if (sb[sb.length - 1] == ',') {
-            sb.setCharAt((sb.length - 1), ']')
-        } else {
-            sb.append(']')
-        }
-        return sb.toString()
+        if (name != other.name) return false
+
+        return true
     }
 
     override fun hashCode(): Int {
-        val result = 1
-        return result
+        return name.hashCode()
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (other === this) {
-            return true
-        }
-        if (other !is FlavorSchema) {
-            return false
-        }
-        return true
+    override fun toString(): String {
+        return "FlavorSchema(name='$name')"
     }
 }
