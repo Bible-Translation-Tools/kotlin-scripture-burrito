@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import org.apache.tika.Tika
 import org.apache.tika.mime.MediaType
 import org.bibletranslationtools.scriptureburrito.container.accessors.DirectoryAccessor
@@ -37,7 +38,7 @@ class BurritoContainer private constructor(
     private fun read(): MetadataSchema {
         if (accessor.fileExists(MANIFEST_FILENAME)) {
             val mapper = ObjectMapper(YAMLFactory())
-            mapper.registerModule(KotlinModule())
+            mapper.registerKotlinModule()
             manifest = accessor.getReader(MANIFEST_FILENAME).use {
                 mapper.readValue(it, MetadataSchema::class.java)
             }
@@ -60,7 +61,7 @@ class BurritoContainer private constructor(
         val factory = YAMLFactory()
         factory.disable(JsonGenerator.Feature.AUTO_CLOSE_TARGET)
         val mapper = ObjectMapper(factory)
-        mapper.registerModule(KotlinModule())
+        mapper.registerKotlinModule()
         mapper.setSerializationInclusion(Include.NON_NULL)
         mapper.writeValue(writer, manifest)
         writer.flush()
@@ -97,7 +98,7 @@ class BurritoContainer private constructor(
             return rc
         }
 
-        fun load(dir: File, strict: Boolean = true): BurritoContainer {
+        fun load(dir: File): BurritoContainer {
             val rc = BurritoContainer(dir)
             rc.read()
 

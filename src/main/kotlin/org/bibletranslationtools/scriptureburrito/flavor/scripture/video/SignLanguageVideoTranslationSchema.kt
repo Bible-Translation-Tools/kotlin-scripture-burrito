@@ -61,7 +61,7 @@ class SignLanguageVideoTranslationSchema: FlavorSchema() {
     }
 
     override fun hashCode(): Int {
-        var result = name?.hashCode() ?: 0
+        var result = name.hashCode()
         result = 31 * result + (contentByChapter?.hashCode() ?: 0)
         result = 31 * result + (formats?.hashCode() ?: 0)
         result = 31 * result + (conventions?.hashCode() ?: 0)

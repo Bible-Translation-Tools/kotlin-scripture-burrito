@@ -45,7 +45,7 @@ class ShortStatement(
     }
 
     override fun hashCode(): Int {
-        var result = statement?.hashCode() ?: 0
+        var result = statement.hashCode()
         result = 31 * result + (lang?.hashCode() ?: 0)
         result = 31 * result + (mimetype?.hashCode() ?: 0)
         return result
