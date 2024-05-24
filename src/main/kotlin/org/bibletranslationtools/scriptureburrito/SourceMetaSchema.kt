@@ -39,4 +39,15 @@ class SourceMetaSchema(
     defaultLocale,
     normalization,
     comments
-)
+) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is SourceMetaSchema) return false
+        if (!super.equals(other)) return false
+        return true
+    }
+
+    override fun toString(): String {
+        return "SourceMetaSchema(category:source, dateCreated=$dateCreated, version=$version, generator=$generator, defaultLocale='$defaultLocale', normalization=$normalization, comments=$comments)"
+    }
+}

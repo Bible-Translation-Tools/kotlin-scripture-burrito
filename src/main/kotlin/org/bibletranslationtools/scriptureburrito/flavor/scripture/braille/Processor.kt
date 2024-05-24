@@ -32,51 +32,25 @@ class Processor {
         this.table = table
     }
 
-    override fun toString(): String {
-        val sb = StringBuilder()
-        sb.append(Processor::class.java.name).append('@').append(
-            Integer.toHexString(
-                System.identityHashCode(
-                    this
-                )
-            )
-        ).append('[')
-        sb.append("name")
-        sb.append('=')
-        sb.append((if ((this.name == null)) "<null>" else this.name))
-        sb.append(',')
-        sb.append("version")
-        sb.append('=')
-        sb.append((if ((this.version == null)) "<null>" else this.version))
-        sb.append(',')
-        sb.append("table")
-        sb.append('=')
-        sb.append((if ((this.table == null)) "<null>" else this.table))
-        sb.append(',')
-        if (sb[sb.length - 1] == ',') {
-            sb.setCharAt((sb.length - 1), ']')
-        } else {
-            sb.append(']')
-        }
-        return sb.toString()
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is Processor) return false
+
+        if (name != other.name) return false
+        if (version != other.version) return false
+        if (table != other.table) return false
+
+        return true
     }
 
     override fun hashCode(): Int {
-        var result = 1
-        result = ((result * 31) + (if ((this.name == null)) 0 else name.hashCode()))
-        result = ((result * 31) + (if ((this.version == null)) 0 else version.hashCode()))
-        result = ((result * 31) + (if ((this.table == null)) 0 else table.hashCode()))
+        var result = name?.hashCode() ?: 0
+        result = 31 * result + (version?.hashCode() ?: 0)
+        result = 31 * result + (table?.hashCode() ?: 0)
         return result
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (other === this) {
-            return true
-        }
-        if ((other is Processor) == false) {
-            return false
-        }
-        val rhs = other
-        return ((((this.name === rhs.name) || ((this.name != null) && (this.name == rhs.name))) && ((this.version === rhs.version) || ((this.version != null) && (this.version == rhs.version)))) && ((this.table === rhs.table) || ((this.table != null) && table == rhs.table)))
+    override fun toString(): String {
+        return "Processor(name=$name, version=$version, table=$table)"
     }
 }

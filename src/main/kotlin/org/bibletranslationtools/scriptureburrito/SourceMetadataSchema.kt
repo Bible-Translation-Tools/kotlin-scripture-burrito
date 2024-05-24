@@ -90,4 +90,24 @@ class SourceMetadataSchema(
     @set:JsonProperty("progress")
     @JsonProperty("progress")
     var progress: ProgressSchema? = null
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is SourceMetadataSchema) return false
+        if (!super.equals(other)) return false
+
+        if (progress != other.progress) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = super.hashCode()
+        result = 31 * result + (progress?.hashCode() ?: 0)
+        return result
+    }
+
+    override fun toString(): String {
+        return "SourceMetadataSchema(progress=$progress, format=$format, meta=$meta, copyright=$copyright, idAuthorities=$idAuthorities, identification=$identification, confidential=$confidential, type=$type, relationships=$relationships, languages=$languages, targetAreas=$targetAreas, agencies=$agencies, ingredients=$ingredients, localizedNames=$localizedNames)"
+    }
 }

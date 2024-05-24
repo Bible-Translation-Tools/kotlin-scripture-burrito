@@ -23,19 +23,16 @@ abstract class Meta(
     @JsonProperty("dateCreated")
     var dateCreated: Date,
 
-
     @get:JsonProperty("version")
     @set:JsonProperty("version")
     @JsonProperty("version")
     @JsonPropertyDescription("Version of the Scripture Burrito specification this file follows.")
     var version: MetaVersionSchema,
 
-
     @get:JsonProperty("generator")
     @set:JsonProperty("generator")
     @JsonProperty("generator")
     var generator: SoftwareAndUserInfoSchema? = null,
-
 
     @get:JsonProperty("defaultLocale")
     @set:JsonProperty("defaultLocale")

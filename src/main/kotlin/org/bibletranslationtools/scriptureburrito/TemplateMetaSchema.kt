@@ -45,4 +45,25 @@ class TemplateMetaSchema(
     defaultLocale,
     normalization,
     comments
-)
+) {
+
+    override fun toString(): String {
+        return "TemplateMetaSchema(category:template, templateName=$templateName, dateCreated=$dateCreated, version=$version, generator=$generator, defaultLocale='$defaultLocale', normalization=$normalization, comments=$comments)"
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is TemplateMetaSchema) return false
+        if (!super.equals(other)) return false
+
+        if (templateName != other.templateName) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = super.hashCode()
+        result = 31 * result + templateName.hashCode()
+        return result
+    }
+}

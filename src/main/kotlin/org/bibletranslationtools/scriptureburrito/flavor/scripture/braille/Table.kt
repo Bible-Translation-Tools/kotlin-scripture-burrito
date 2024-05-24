@@ -20,46 +20,23 @@ class Table {
     @JsonProperty("name")
     var name: String? = null
 
-    override fun toString(): String {
-        val sb = StringBuilder()
-        sb.append(Table::class.java.name).append('@').append(
-            Integer.toHexString(
-                System.identityHashCode(
-                    this
-                )
-            )
-        ).append('[')
-        sb.append("src")
-        sb.append('=')
-        sb.append((if ((this.src == null)) "<null>" else this.src))
-        sb.append(',')
-        sb.append("name")
-        sb.append('=')
-        sb.append((if ((this.name == null)) "<null>" else this.name))
-        sb.append(',')
-        if (sb[sb.length - 1] == ',') {
-            sb.setCharAt((sb.length - 1), ']')
-        } else {
-            sb.append(']')
-        }
-        return sb.toString()
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is Table) return false
+
+        if (src != other.src) return false
+        if (name != other.name) return false
+
+        return true
     }
 
     override fun hashCode(): Int {
-        var result = 1
-        result = ((result * 31) + (if ((this.name == null)) 0 else name.hashCode()))
-        result = ((result * 31) + (if ((this.src == null)) 0 else src.hashCode()))
+        var result = src?.hashCode() ?: 0
+        result = 31 * result + (name?.hashCode() ?: 0)
         return result
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (other === this) {
-            return true
-        }
-        if ((other is Table) == false) {
-            return false
-        }
-        val rhs = other
-        return (((this.name === rhs.name) || ((this.name != null) && (this.name == rhs.name))) && ((this.src === rhs.src) || ((this.src != null) && (this.src == rhs.src))))
+    override fun toString(): String {
+        return "Table(src=$src, name=$name)"
     }
 }

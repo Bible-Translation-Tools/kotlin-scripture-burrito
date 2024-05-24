@@ -29,6 +29,7 @@ class CopyrightSchema {
     @JsonProperty("shortStatements")
     @JsonPropertyDescription("A short statement to explain the copyright / license information to readers")
     var shortStatements: MutableList<ShortStatement> = ArrayList()
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false

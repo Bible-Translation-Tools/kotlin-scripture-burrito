@@ -25,51 +25,25 @@ class Checksum {
     @JsonProperty("sha3-512")
     var sha3512: String? = null
 
-    override fun toString(): String {
-        val sb = StringBuilder()
-        sb.append(Checksum::class.java.name).append('@').append(
-            Integer.toHexString(
-                System.identityHashCode(
-                    this
-                )
-            )
-        ).append('[')
-        sb.append("md5")
-        sb.append('=')
-        sb.append((if ((this.md5 == null)) "<null>" else this.md5))
-        sb.append(',')
-        sb.append("sha3256")
-        sb.append('=')
-        sb.append((if ((this.sha3256 == null)) "<null>" else this.sha3256))
-        sb.append(',')
-        sb.append("sha3512")
-        sb.append('=')
-        sb.append((if ((this.sha3512 == null)) "<null>" else this.sha3512))
-        sb.append(',')
-        if (sb[sb.length - 1] == ',') {
-            sb.setCharAt((sb.length - 1), ']')
-        } else {
-            sb.append(']')
-        }
-        return sb.toString()
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is Checksum) return false
+
+        if (md5 != other.md5) return false
+        if (sha3256 != other.sha3256) return false
+        if (sha3512 != other.sha3512) return false
+
+        return true
     }
 
     override fun hashCode(): Int {
-        var result = 1
-        result = ((result * 31) + (if ((this.sha3512 == null)) 0 else sha3512.hashCode()))
-        result = ((result * 31) + (if ((this.md5 == null)) 0 else md5.hashCode()))
-        result = ((result * 31) + (if ((this.sha3256 == null)) 0 else sha3256.hashCode()))
+        var result = md5?.hashCode() ?: 0
+        result = 31 * result + (sha3256?.hashCode() ?: 0)
+        result = 31 * result + (sha3512?.hashCode() ?: 0)
         return result
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (other === this) {
-            return true
-        }
-        if ((other is Checksum) == false) {
-            return false
-        }
-        val rhs = other
-        return ((((this.sha3512 === rhs.sha3512) || ((this.sha3512 != null) && (this.sha3512 == rhs.sha3512))) && ((this.md5 === rhs.md5) || ((this.md5 != null) && (this.md5 == rhs.md5)))) && ((this.sha3256 === rhs.sha3256) || ((this.sha3256 != null) && (this.sha3256 == rhs.sha3256))))
+    override fun toString(): String {
+        return "Checksum(md5=$md5, sha3256=$sha3256, sha3512=$sha3512)"
     }
 }

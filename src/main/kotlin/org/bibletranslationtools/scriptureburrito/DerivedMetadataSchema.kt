@@ -96,11 +96,11 @@ class DerivedMetadataSchema(
     @JsonProperty("recipe")
     @JsonPropertyDescription("Scripture Burrito recipes.")
     var recipe: MutableList<RecipeSchema>? = ArrayList()
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as DerivedMetadataSchema
+        if (other !is DerivedMetadataSchema) return false
+        if (!super.equals(other)) return false
 
         if (promotion != other.promotion) return false
         if (recipe != other.recipe) return false
@@ -109,12 +109,13 @@ class DerivedMetadataSchema(
     }
 
     override fun hashCode(): Int {
-        var result = promotion?.hashCode() ?: 0
+        var result = super.hashCode()
+        result = 31 * result + (promotion?.hashCode() ?: 0)
         result = 31 * result + (recipe?.hashCode() ?: 0)
         return result
     }
 
     override fun toString(): String {
-        return "DerivedMetadataSchema(promotion=$promotion, recipe=$recipe)"
+        return "DerivedMetadataSchema(promotion=$promotion, recipe=$recipe, format=$format, meta=$meta, copyright=$copyright, idAuthorities=$idAuthorities, identification=$identification, confidential=$confidential, type=$type, relationships=$relationships, languages=$languages, targetAreas=$targetAreas, agencies=$agencies, ingredients=$ingredients, localizedNames=$localizedNames)"
     }
 }

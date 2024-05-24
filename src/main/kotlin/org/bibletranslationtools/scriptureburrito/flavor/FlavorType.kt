@@ -26,6 +26,7 @@ class FlavorType(
     @set:JsonProperty("currentScope")
     @JsonProperty("currentScope")
     var currentScope: ScopeSchema? = null
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is FlavorType) return false
