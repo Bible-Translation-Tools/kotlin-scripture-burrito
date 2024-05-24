@@ -27,7 +27,7 @@ class TypeSchema(
     }
 
     override fun hashCode(): Int {
-        return flavorType?.hashCode() ?: 0
+        return flavorType.hashCode()
     }
 
     override fun toString(): String {

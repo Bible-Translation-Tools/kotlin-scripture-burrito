@@ -201,7 +201,7 @@ class LanguageSchema(
     }
 
     override fun hashCode(): Int {
-        var result = tag.hashCode() ?: 0
+        var result = tag.hashCode()
         result = 31 * result + name.hashCode()
         result = 31 * result + (numberingSystem?.hashCode() ?: 0)
         result = 31 * result + (rod?.hashCode() ?: 0)

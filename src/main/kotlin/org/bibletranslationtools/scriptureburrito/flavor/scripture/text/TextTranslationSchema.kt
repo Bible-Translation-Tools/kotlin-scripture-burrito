@@ -63,7 +63,7 @@ class TextTranslationSchema: FlavorSchema() {
     }
 
     override fun hashCode(): Int {
-        var result = name?.hashCode() ?: 0
+        var result = name.hashCode()
         result = 31 * result + (projectType?.hashCode() ?: 0)
         result = 31 * result + (translationType?.hashCode() ?: 0)
         result = 31 * result + (audience?.hashCode() ?: 0)

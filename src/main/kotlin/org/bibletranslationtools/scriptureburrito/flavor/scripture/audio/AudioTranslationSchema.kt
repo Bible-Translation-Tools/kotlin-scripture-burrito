@@ -11,14 +11,10 @@ import org.bibletranslationtools.scriptureburrito.flavor.FlavorSchema
     "name", "performance", "formats", "conventions"
 )
 class AudioFlavorSchema(
-    @get:JsonProperty("performance")
-    @set:JsonProperty("performance")
     @JsonProperty("performance")
     @JsonDeserialize(`as` = LinkedHashSet::class)
     private var performance: MutableSet<Performance> = LinkedHashSet(),
-
-    @get:JsonProperty("formats")
-    @set:JsonProperty("formats")
+    
     @JsonProperty("formats")
     private var formats: Formats
 ) : FlavorSchema() {
