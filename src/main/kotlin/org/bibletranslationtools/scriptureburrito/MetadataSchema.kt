@@ -1,20 +1,6 @@
 package org.bibletranslationtools.scriptureburrito
 
 import com.fasterxml.jackson.annotation.*
-import com.fasterxml.jackson.core.JsonParser
-import com.fasterxml.jackson.core.JsonProcessingException
-import com.fasterxml.jackson.databind.DeserializationContext
-import com.fasterxml.jackson.databind.JsonDeserializer
-import com.fasterxml.jackson.databind.JsonMappingException
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.module.SimpleModule
-import com.fasterxml.jackson.module.kotlin.KotlinModule
-import com.fasterxml.jackson.module.kotlin.registerKotlinModule
-import org.bibletranslationtools.scriptureburrito.flavor.FlavorSchema
-import org.bibletranslationtools.scriptureburrito.flavor.FlavorSchemaDeserializer
-import java.io.IOException
-
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder(

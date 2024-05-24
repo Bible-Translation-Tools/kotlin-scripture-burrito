@@ -40,7 +40,7 @@ class TestMetadataSubtypes {
         Format.SCRIPTURE_BURRITO,
         DerivedMetaSchema(
             dateCreated = Date.from(Instant.now()),
-            version = MetaVersionSchema("1.0.0"),
+            version = MetaVersionSchema._1_0_0,
             defaultLocale = "en",
             generator = SoftwareAndUserInfoSchema().apply {
                 softwareName = "test"
@@ -59,7 +59,7 @@ class TestMetadataSubtypes {
         Format.SCRIPTURE_BURRITO,
         SourceMetaSchema(
             dateCreated = Date.from(Instant.now()),
-            version = MetaVersionSchema("1.0.0"),
+            version = MetaVersionSchema._1_0_0,
             defaultLocale = "en",
             generator = SoftwareAndUserInfoSchema().apply {
                 softwareName = "test"
@@ -78,7 +78,7 @@ class TestMetadataSubtypes {
         Format.SCRIPTURE_BURRITO,
         TemplateMetaSchema(
             dateCreated = Date.from(Instant.now()),
-            version = MetaVersionSchema("1.0.0"),
+            version = MetaVersionSchema._1_0_0,
             defaultLocale = "en",
             templateName = LocalizedText(short = hashMapOf("en" to "testTemplate")),
             generator = SoftwareAndUserInfoSchema().apply {
