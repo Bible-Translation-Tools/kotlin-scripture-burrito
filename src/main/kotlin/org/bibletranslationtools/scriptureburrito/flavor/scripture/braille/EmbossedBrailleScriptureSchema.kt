@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonPropertyOrder
 import com.fasterxml.jackson.databind.JsonNode
+import org.bibletranslationtools.scriptureburrito.flavor.FlavorSchema
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder(
@@ -17,11 +18,11 @@ import com.fasterxml.jackson.databind.JsonNode
     "page",
     "conventions"
 )
-class EmbossedBrailleScriptureSchema {
+class EmbossedBrailleScriptureSchema: FlavorSchema() {
     @get:JsonProperty("name")
     @set:JsonProperty("name")
     @JsonProperty("name")
-    var name: String? = null
+    override lateinit var name: String
 
 
 

@@ -2,6 +2,7 @@ package org.bibletranslationtools.scriptureburrito.flavor.scripture.print
 
 import com.fasterxml.jackson.annotation.*
 import com.fasterxml.jackson.databind.JsonNode
+import org.bibletranslationtools.scriptureburrito.flavor.FlavorSchema
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder(
@@ -18,12 +19,12 @@ import com.fasterxml.jackson.databind.JsonNode
     "fonts",
     "conventions"
 )
-class TypesetScriptureSchema {
+class TypesetScriptureSchema: FlavorSchema() {
 
     @get:JsonProperty("name")
     @set:JsonProperty("name")
     @JsonProperty("name")
-    var name: String? = null
+    override lateinit var name: String
 
     @get:JsonProperty("contentType")
     @set:JsonProperty("contentType")

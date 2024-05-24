@@ -4,18 +4,18 @@ import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonPropertyOrder
 import com.fasterxml.jackson.databind.JsonNode
+import org.bibletranslationtools.scriptureburrito.flavor.FlavorSchema
 import org.bibletranslationtools.scriptureburrito.flavor.scripture.audio.Formats
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder(
     "name", "contentByChapter", "formats", "conventions"
 )
-class SignLanguageVideoTranslationSchema {
-
+class SignLanguageVideoTranslationSchema: FlavorSchema() {
     @get:JsonProperty("name")
     @set:JsonProperty("name")
     @JsonProperty("name")
-    var name: String? = null
+    override lateinit var name: String
 
     @get:JsonProperty("contentByChapter")
     @set:JsonProperty("contentByChapter")

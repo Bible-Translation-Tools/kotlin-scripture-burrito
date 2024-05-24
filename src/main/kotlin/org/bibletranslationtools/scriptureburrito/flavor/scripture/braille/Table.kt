@@ -14,7 +14,7 @@ class Table {
     @set:JsonProperty("src")
     @JsonProperty("src")
     var src: String? = null
-    
+
     @get:JsonProperty("name")
     @set:JsonProperty("name")
     @JsonProperty("name")

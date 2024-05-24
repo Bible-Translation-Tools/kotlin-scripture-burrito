@@ -1,19 +1,19 @@
 package org.bibletranslationtools.scriptureburrito.flavor.scripture.text
 
 import com.fasterxml.jackson.annotation.*
-import JsonNode
-
+import com.fasterxml.jackson.databind.JsonNode
+import org.bibletranslationtools.scriptureburrito.flavor.FlavorSchema
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder(
     "name", "projectType", "translationType", "audience", "usfmVersion", "conventions"
 )
-class TextTranslationSchema {
+class TextTranslationSchema: FlavorSchema() {
 
     @get:JsonProperty("name")
     @set:JsonProperty("name")
     @JsonProperty("name")
-    var name: String? = null
+    override lateinit var name: String
     
     @get:JsonProperty("projectType")
     @set:JsonProperty("projectType")
@@ -36,15 +36,15 @@ class TextTranslationSchema {
     var usfmVersion: String? = null
 
     @JsonProperty("conventions")
-    private var conventions: Conventions? = null
+    private var conventions: JsonNode? = null
 
     @JsonProperty("conventions")
-    fun getConventions(): Conventions? {
+    fun getConventions(): JsonNode? {
         return conventions
     }
 
     @JsonProperty("conventions")
-    fun setConventions(conventions: Conventions?) {
+    fun setConventions(conventions: JsonNode?) {
         this.conventions = conventions
     }
 

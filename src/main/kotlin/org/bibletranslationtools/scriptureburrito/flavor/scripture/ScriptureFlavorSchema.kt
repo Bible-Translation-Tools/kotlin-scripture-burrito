@@ -12,7 +12,6 @@ import org.bibletranslationtools.scriptureburrito.flavor.FlavorSchema
     "translationType",
     "audience",
     "projectType"
-    
 )
 class ScriptureFlavorSchema: FlavorSchema() {
     @get:JsonProperty("name")
