@@ -28,9 +28,9 @@ repositories {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.0"
 
-    implementation "com.fasterxml.jackson.module:jackson-module-kotlin:2.15.1"
-    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.15.1'
-    implementation "org.apache.tika:tika-core:2.0.0"
+    api "com.fasterxml.jackson.module:jackson-module-kotlin:2.15.1"
+    api 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.15.1'
+    api "org.apache.tika:tika-core:2.0.0"
 
     implementation "org.slf4j:slf4j-api:2.0.13"
 
