@@ -14,18 +14,18 @@ class FlavorType(
     @get:JsonProperty("name")
     @set:JsonProperty("name")
     @JsonProperty("name")
-    var name: Flavor
-) {
+    var name: Flavor,
 
     @get:JsonProperty("flavor")
     @set:JsonProperty("flavor")
     @JsonProperty("flavor")
-    var flavor: FlavorSchema? = null
+    var flavor: FlavorSchema,
 
     @get:JsonProperty("currentScope")
     @set:JsonProperty("currentScope")
     @JsonProperty("currentScope")
-    var currentScope: ScopeSchema? = null
+    var currentScope: ScopeSchema
+) {
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
