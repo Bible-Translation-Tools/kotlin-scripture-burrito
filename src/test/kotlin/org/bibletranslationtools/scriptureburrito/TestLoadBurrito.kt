@@ -114,7 +114,7 @@ class TestLoadBurrito {
             val groupedByChapter = hashMapOf<Int, List<Pair<String, IngredientSchema>>>()
             ingredients.forEach { item ->
                 val (file, ingredient) = item
-                val scope = ingredient.scope?.get(book)!!
+                val scope = ingredient.scope?.get(book.uppercase(Locale.US))!!
                 when {
                     scope.isEmpty() -> {
                         assert(false)
@@ -235,10 +235,12 @@ class TestLoadBurrito {
             // NT starts at 41
             val bookNumber = if (bookIndex <= 38) bookIndex + 1 else bookIndex + 2
             val (audioFile, ingredient) = audioFiles.first()
+            val chapter = ingredient!!.scope?.get(book.uppercase(Locale.US))?.single()!!
             val extension = File(audioFile).extension
             if (rc.accessor.fileExists(audioFile)) {
                 val newPath = "media/${
                     getFilename(languageCode, titleCode, book, extension)
+                        .replace("{chapter}", chapter)
                 }.$extension"
                 val ifs = rc.accessor.getInputStream(audioFile)
                 rc.accessor.write(newPath) {
