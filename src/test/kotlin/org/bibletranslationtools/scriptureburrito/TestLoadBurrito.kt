@@ -1,39 +1,44 @@
 package org.bibletranslationtools.scriptureburrito
 
 import org.bibletranslationtools.scriptureburrito.container.BurritoContainer
+import org.bibletranslationtools.scriptureburrito.container.accessors.IContainerAccessor
 import org.bibletranslationtools.scriptureburrito.flavor.scripture.audio.AudioFlavorSchema
 import org.bibletranslationtools.scriptureburrito.flavor.scripture.audio.AudioFormat
 import org.bibletranslationtools.scriptureburrito.flavor.scripture.audio.Compression
 import org.bibletranslationtools.scriptureburrito.flavor.scripture.audio.TrackConfiguration
 import org.junit.Test
+import org.wycliffeassociates.resourcecontainer.IResourceContainerAccessor
 import org.wycliffeassociates.resourcecontainer.ResourceContainer
 import org.wycliffeassociates.resourcecontainer.entity.*
 import java.io.File
 import java.util.*
-import java.util.stream.Collectors
 import kotlin.collections.HashMap
 
-const val filenamePattern = "media/{language}_{title}_{book}_c{chapter}.{extension}"
+const val filenamePattern = "{language}_{title}_{book}_c{chapter}.{extension}"
+const val DEFAULT_TITLE_CODE = "reg"
 
 class TestLoadBurrito {
 
-    val burrito = File("/Users/joe/Desktop/test.burrito")
+    val burrito = File("/Users/joe/Desktop/test2.burrito")
     val rc = File("/Users/joe/Desktop/test.rc")
 
     @Test
     fun testOpenBurrito() {
-        val burrito = BurritoContainer.load(File("/Users/joe/Desktop/test.burrito"))
+        val burrito = BurritoContainer.load(burrito)
         val metadata = burrito.manifest
         println(metadata)
 
-        ResourceContainer.create(rc) {
-            val (projects, media) = processContentInBurrito(metadata, this)
-            this.manifest = Manifest(
-                dublinCore = dublinCoreFromBurrito(metadata),
-                projects = projects,
-                checking = Checking(),
-            )
-            this.media = media
+        burrito.use { burrito ->
+            ResourceContainer.create(rc) {
+                val (projects, media) = processContentInBurrito(metadata, burrito.accessor, this.accessor)
+                this.manifest = Manifest(
+                    dublinCore = dublinCoreFromBurrito(metadata),
+                    projects = projects,
+                    checking = Checking(),
+                )
+                this.media = media
+                this.write()
+            }
         }
     }
 
@@ -53,7 +58,7 @@ class TestLoadBurrito {
 
     private fun getTitleFromBurrito(burrito: MetadataSchema): Pair<String, String> {
         val langSlug = burrito.meta.defaultLocale
-        var slug = ""
+        var slug = DEFAULT_TITLE_CODE
         var title = ""
         burrito.identification?.let {
             slug = it.abbreviation["en"] ?: it.abbreviation[langSlug] ?: ""
@@ -65,8 +70,9 @@ class TestLoadBurrito {
     private fun getLanguageFromBurrito(burrito: MetadataSchema): Language {
         val slug = burrito.meta.defaultLocale
         val lang = burrito.languages.first { it.tag == slug }
+        val direction = lang.scriptDirection?.value() ?: ""
         return Language(
-            "",
+            direction,
             slug,
             lang.name[slug] ?: lang.name["en"] ?: ""
         )
@@ -82,7 +88,8 @@ class TestLoadBurrito {
 
     private fun processContentInBurrito(
         burrito: MetadataSchema,
-        resourceContainer: ResourceContainer
+        inputAccessor: IContainerAccessor,
+        outputAccessor: IResourceContainerAccessor
     ): Pair<List<Project>, MediaManifest> {
         val ingredientsByBook = getIngredientsByBook(burrito)
         val usfmFilesByBook = getUSFMIngredients(ingredientsByBook)
@@ -90,8 +97,8 @@ class TestLoadBurrito {
 
         val versification = getVersification(burrito, usfmFilesByBook, chapterAudioByBook)
 
-        moveUSFMFiles(burrito, usfmFilesByBook, resourceContainer)
-        moveAudioFiles(burrito, chapterAudioByBook, resourceContainer)
+        moveUSFMFiles(burrito, usfmFilesByBook, inputAccessor, outputAccessor)
+        moveAudioFiles(burrito, chapterAudioByBook, inputAccessor, outputAccessor)
 
         val mediaManifest = createMediaManifest(burrito, chapterAudioByBook)
         val projects = createProjects(
@@ -120,9 +127,11 @@ class TestLoadBurrito {
                         assert(false)
                         // breakBookAudioIntoChapters()
                     }
+
                     scope.size == 1 -> {
                         groupedByChapter[scope.single().toInt()] = listOf(item)
                     }
+
                     scope.size > 1 -> {
                         assert(false)
                         // combineSubchapterIntoChapter()
@@ -157,7 +166,7 @@ class TestLoadBurrito {
         val accepted = HashMap<String, List<Pair<String, IngredientSchema>>>()
         ingedientsByBook.forEach { (book, ingredients) ->
             accepted[book] = ingredients.filter { (filename, ingredient) ->
-                ingredient.mimeType in approvedMimeType
+                ingredient.mimeType in listOf(*approvedMimeType.toTypedArray(), "application/x-cue")
             }
         }
         return accepted
@@ -165,18 +174,20 @@ class TestLoadBurrito {
 
     private fun validateWavFormat(format: AudioFormat): Boolean {
         return arrayOf(
-            format.samplingRate == 44100,
             format.compression == Compression.WAV,
-            format.trackConfiguration == TrackConfiguration.MONO,
-            format.bitDepth == 16
+            // don't fail if sampling rate or configuration are not provided
+            format.samplingRate?.equals(44100) ?: true,
+            format.trackConfiguration?.equals(TrackConfiguration.MONO) ?: true,
+            format.bitDepth?.equals(16) ?: true
         ).all { it }
     }
 
     private fun validateMp3Format(format: AudioFormat): Boolean {
         return arrayOf(
-            format.samplingRate == 44100,
             format.compression == Compression.MP3,
-            format.trackConfiguration == TrackConfiguration.MONO,
+            // don't fail if sampling rate or configuration are not provided
+            format.samplingRate?.equals(44100) ?: true,
+            format.trackConfiguration?.equals(TrackConfiguration.MONO) ?: true,
         ).all { it }
     }
 
@@ -192,9 +203,9 @@ class TestLoadBurrito {
                     val extension = File(chapterFile).extension
                     Media(
                         identifier = extension,
-                        chapterUrl = getFilename(languageCode, titleCode, book, extension)
+                        chapterUrl = "media/${getFilename(languageCode, titleCode, book, extension)}"
                     )
-                }
+                }.toSet().toList()
                 MediaProject(
                     identifier = book,
                     media = audioEntries
@@ -206,17 +217,19 @@ class TestLoadBurrito {
     private fun moveUSFMFiles(
         burrito: MetadataSchema,
         usfmFilesByBook: IngredientsByBook,
-        rc: ResourceContainer
+        inputAccessor: IContainerAccessor,
+        outputAccessor: IResourceContainerAccessor
     ) {
         for ((book, usfmFiles) in usfmFilesByBook) {
+            if (usfmFiles.isEmpty()) continue
             val bookIndex = books.indexOf(book.lowercase(Locale.US))
             // NT starts at 41
             val bookNumber = if (bookIndex <= 38) bookIndex + 1 else bookIndex + 2
             val (usfmFile, ingredient) = usfmFiles.first()
-            if (rc.accessor.fileExists(usfmFile)) {
+            if (inputAccessor.fileExists(usfmFile)) {
                 val newPath = "$bookNumber-${book.uppercase(Locale.US)}.usfm"
-                val ifs = rc.accessor.getInputStream(usfmFile)
-                rc.accessor.write(newPath) {
+                val ifs = inputAccessor.getInputStream(usfmFile)
+                outputAccessor.write(newPath) {
                     ifs.transferTo(it)
                 }
             }
@@ -226,25 +239,29 @@ class TestLoadBurrito {
     private fun moveAudioFiles(
         burrito: MetadataSchema,
         usfmFilesByBook: IngredientsByBook,
-        rc: ResourceContainer
+        inputAccessor: IContainerAccessor,
+        outputAccessor: IResourceContainerAccessor
     ) {
         val (titleCode, _) = getTitleFromBurrito(burrito)
         val languageCode = getLanguageFromBurrito(burrito).identifier
         for ((book, audioFiles) in usfmFilesByBook) {
+            if (audioFiles.isEmpty()) continue
             val bookIndex = books.indexOf(book.lowercase(Locale.US))
             // NT starts at 41
             val bookNumber = if (bookIndex <= 38) bookIndex + 1 else bookIndex + 2
-            val (audioFile, ingredient) = audioFiles.first()
-            val chapter = ingredient!!.scope?.get(book.uppercase(Locale.US))?.single()!!
-            val extension = File(audioFile).extension
-            if (rc.accessor.fileExists(audioFile)) {
-                val newPath = "media/${
-                    getFilename(languageCode, titleCode, book, extension)
-                        .replace("{chapter}", chapter)
-                }.$extension"
-                val ifs = rc.accessor.getInputStream(audioFile)
-                rc.accessor.write(newPath) {
-                    ifs.transferTo(it)
+            for (af in audioFiles) {
+                val (audioFile, ingredient) = af
+                val chapter = ingredient!!.scope?.get(book.uppercase(Locale.US))?.single()!!
+                val extension = File(audioFile).extension
+                if (inputAccessor.fileExists(audioFile)) {
+                    val newPath = "media/${
+                        getFilename(languageCode, titleCode, book, extension)
+                            .replace("{chapter}", chapter)
+                    }"
+                    val ifs = inputAccessor.getInputStream(audioFile)
+                    outputAccessor.write(newPath) {
+                        ifs.transferTo(it)
+                    }
                 }
             }
         }
@@ -263,7 +280,7 @@ class TestLoadBurrito {
         val filtered = HashMap<String, List<Pair<String, IngredientSchema>>>()
         ingedientsByBook.forEach { book, ingredientList ->
             val items = ingredientList.filter { (file, ingredient) ->
-                File(file).extension == ".usfm" || ingredient.mimeType in usfmMimetypes
+                File(file).extension == "usfm" || ingredient.mimeType in usfmMimetypes
             }
             filtered[book] = items
         }
@@ -284,7 +301,7 @@ class TestLoadBurrito {
                 versification = versification,
                 identifier = slug,
                 sort = getBookSort(slug),
-                path = getFilename(languageCode, titleCode, slug, "usfm"),
+                path = "./${getFilename(languageCode, titleCode, slug, "usfm")}",
                 categories = listOf(getTestament(slug))
             )
         }
@@ -294,12 +311,13 @@ class TestLoadBurrito {
         val locale = burrito.meta.defaultLocale
         val localizedTitle = burrito.localizedNames["book-${bookSlug.lowercase(Locale.US)}"]
         localizedTitle?.let { localizedTitle ->
-            return localizedTitle.long[locale] ?: localizedTitle.long["en"] ?: ""
+            return localizedTitle.short[locale] ?: localizedTitle.short["en"] ?: ""
         }
         return ""
     }
 
     private fun getFilename(languageCode: String, titleCode: String, bookSlug: String, extension: String): String {
+        val titleCode = if (titleCode.isEmpty()) DEFAULT_TITLE_CODE else titleCode
         return filenamePattern
             .replace("{book}", bookSlug)
             .replace("{title}", titleCode)
@@ -331,8 +349,8 @@ val books = arrayOf(
     "jhn", "act", "rom", "1co", "2co", "gal", "eph", "php", "col", "1th", "2th", "1ti", "2ti", "tit",
     "phm", "heb", "jas", "1pe", "2pe", "1jn", "2jn", "3jn", "jud", "rev"
 )
-val ot = books.slice(0..41)
-val nt = books.slice(42..66)
+val ot = books.slice(0 until 41)
+val nt = books.slice(41 until 66)
 
 fun getBookSort(bookSlug: String): Int {
     return books.indexOf(bookSlug) + 1

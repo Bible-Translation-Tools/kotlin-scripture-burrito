@@ -5,15 +5,14 @@ import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.module.SimpleModule
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
-import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import org.apache.tika.Tika
 import org.apache.tika.mime.MediaType
+import org.bibletranslationtools.scriptureburrito.MetadataDeserializer
 import org.bibletranslationtools.scriptureburrito.container.accessors.DirectoryAccessor
 import org.bibletranslationtools.scriptureburrito.container.accessors.IContainerAccessor
 import org.bibletranslationtools.scriptureburrito.container.accessors.ZipAccessor
 import org.bibletranslationtools.scriptureburrito.MetadataSchema
-import org.bibletranslationtools.scriptureburrito.flavor.FlavorSchema
 import java.io.File
 import java.io.IOException
 import java.io.OutputStream
@@ -41,7 +40,7 @@ class BurritoContainer private constructor(
         if (accessor.fileExists(MANIFEST_FILENAME)) {
             val mapper = ObjectMapper(YAMLFactory())
             mapper.registerModules(
-                SimpleModule().addDeserializer(MetadataSchema::class.java, MetadataSchema.MetadataDeserializer())
+                SimpleModule().addDeserializer(MetadataSchema::class.java, MetadataDeserializer())
             )
             mapper.registerKotlinModule()
             manifest = accessor.getReader(MANIFEST_FILENAME).use {
