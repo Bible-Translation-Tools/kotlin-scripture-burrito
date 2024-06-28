@@ -27,49 +27,8 @@ import java.io.IOException
     JsonSubTypes.Type(value = TypesetScriptureSchema::class, name = "typesetScripture")
 )
 abstract class FlavorSchema {
-
     @get:JsonProperty("name")
     @set:JsonProperty("name")
     @JsonProperty("name")
     open lateinit var name: String
-    // abstract var name: String
-//    override fun equals(other: Any?): Boolean {
-//        if (this === other) return true
-//        if (other !is FlavorSchema) return false
-//
-//        if (name != other.name) return false
-//
-//        return true
-//    }
-//
-//    override fun hashCode(): Int {
-//        return name.hashCode()
-//    }
-//
-//    override fun toString(): String {
-//        return "FlavorSchema(name='$name')"
-//    }
 }
-
-//class FlavorSchemaDeserializer : JsonDeserializer<FlavorSchema?>() {
-//    val mapper = ObjectMapper().registerKotlinModule()
-//
-//    @Throws(IOException::class, JsonProcessingException::class)
-//    override fun deserialize(jp: JsonParser, ctx: DeserializationContext?): FlavorSchema {
-//        val node: JsonNode = jp.readValueAsTree() // Get the complete JSON structure
-//
-//        // Extract the "format" field from the package object (assuming it's nested)
-//        val format = node["name"].asText()
-//
-//        val flavor: FlavorSchema = when (format) {
-//            "textTranslation" -> mapper.readValue(node.toString(), ScriptureFlavorSchema::class.java)
-//            "audioTranslation" -> {
-//                val parsed = mapper.readValue(node.toString(), AudioFlavorSchema::class.java)
-//                parsed
-//            }
-//
-//            else -> throw JsonMappingException("Unsupported format string: $format")
-//        }
-//        return flavor
-//    }
-//}

@@ -18,10 +18,6 @@ class AudioFlavorSchema(
     @JsonProperty("formats")
     private var formats: Formats
 ) : FlavorSchema() {
-//    @get:JsonProperty("name")
-//    @set:JsonProperty("name")
-//    @JsonProperty("name")
-//    override lateinit var name: String
 
     @JsonProperty("conventions")
     private var conventions: AudioConventions? = null
