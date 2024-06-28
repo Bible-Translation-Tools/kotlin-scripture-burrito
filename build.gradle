@@ -16,7 +16,7 @@ plugins {
 }
 
 group 'org.bibletranslationtools'
-version '1.0.0'
+version '1.0.1-PR'
 
 sourceCompatibility = 1.8
 
