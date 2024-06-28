@@ -21,11 +21,6 @@ import org.bibletranslationtools.scriptureburrito.flavor.FlavorSchema
 )
 class TypesetScriptureSchema: FlavorSchema() {
 
-    @get:JsonProperty("name")
-    @set:JsonProperty("name")
-    @JsonProperty("name")
-    override lateinit var name: String
-
     @get:JsonProperty("contentType")
     @set:JsonProperty("contentType")
     @JsonProperty("contentType")
@@ -101,7 +96,6 @@ class TypesetScriptureSchema: FlavorSchema() {
         if (this === other) return true
         if (other !is TypesetScriptureSchema) return false
 
-        if (name != other.name) return false
         if (contentType != other.contentType) return false
         if (pod != other.pod) return false
         if (pageCount != other.pageCount) return false
@@ -118,7 +112,7 @@ class TypesetScriptureSchema: FlavorSchema() {
     }
 
     override fun hashCode(): Int {
-        var result = name.hashCode()
+        var result = 0
         result = 31 * result + (contentType?.hashCode() ?: 0)
         result = 31 * result + (pod?.hashCode() ?: 0)
         result = 31 * result + (pageCount ?: 0)
@@ -134,7 +128,7 @@ class TypesetScriptureSchema: FlavorSchema() {
     }
 
     override fun toString(): String {
-        return "TypesetScriptureSchema(name=$name, contentType=$contentType, pod=$pod, pageCount=$pageCount, width=$width, height=$height, scale=$scale, orientation=$orientation, colorSpace=$colorSpace, edgeSpace=$edgeSpace, fonts=$fonts, conventions=$conventions)"
+        return "TypesetScriptureSchema(contentType=$contentType, pod=$pod, pageCount=$pageCount, width=$width, height=$height, scale=$scale, orientation=$orientation, colorSpace=$colorSpace, edgeSpace=$edgeSpace, fonts=$fonts, conventions=$conventions)"
     }
 
 

@@ -1,13 +1,11 @@
 package org.bibletranslationtools.scriptureburrito.flavor
 
-import com.fasterxml.jackson.annotation.JsonInclude
-import com.fasterxml.jackson.annotation.JsonPropertyOrder
-import com.fasterxml.jackson.annotation.JsonSubTypes
-import com.fasterxml.jackson.annotation.JsonTypeInfo
+import com.fasterxml.jackson.annotation.*
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.*
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import org.bibletranslationtools.scriptureburrito.flavor.scripture.ScriptureFlavorSchema
 import org.bibletranslationtools.scriptureburrito.flavor.scripture.audio.AudioFlavorSchema
 import org.bibletranslationtools.scriptureburrito.flavor.scripture.braille.EmbossedBrailleScriptureSchema
@@ -28,23 +26,4 @@ import java.io.IOException
     JsonSubTypes.Type(value = EmbossedBrailleScriptureSchema::class, name = "embossedBrailleScripture"),
     JsonSubTypes.Type(value = TypesetScriptureSchema::class, name = "typesetScripture")
 )
-abstract class FlavorSchema {
-
-    abstract var name: String
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other !is FlavorSchema) return false
-
-        if (name != other.name) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        return name.hashCode()
-    }
-
-    override fun toString(): String {
-        return "FlavorSchema(name='$name')"
-    }
-}
+abstract class FlavorSchema

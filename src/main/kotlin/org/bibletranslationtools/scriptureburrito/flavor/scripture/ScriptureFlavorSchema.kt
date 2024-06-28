@@ -14,11 +14,6 @@ import org.bibletranslationtools.scriptureburrito.flavor.FlavorSchema
     "projectType"
 )
 class ScriptureFlavorSchema: FlavorSchema() {
-    @get:JsonProperty("name")
-    @set:JsonProperty("name")
-    @JsonProperty("name")
-    override lateinit var name: String
-
     @get:JsonProperty("usfmVersion")
     @set:JsonProperty("usfmVersion")
     @JsonProperty("usfmVersion")
@@ -43,7 +38,6 @@ class ScriptureFlavorSchema: FlavorSchema() {
         if (other !is ScriptureFlavorSchema) return false
         if (!super.equals(other)) return false
 
-        if (name != other.name) return false
         if (usfmVersion != other.usfmVersion) return false
         if (translationType != other.translationType) return false
         if (audience != other.audience) return false
@@ -54,7 +48,6 @@ class ScriptureFlavorSchema: FlavorSchema() {
 
     override fun hashCode(): Int {
         var result = super.hashCode()
-        result = 31 * result + name.hashCode()
         result = 31 * result + (usfmVersion?.hashCode() ?: 0)
         result = 31 * result + (translationType?.hashCode() ?: 0)
         result = 31 * result + (audience?.hashCode() ?: 0)
@@ -63,6 +56,6 @@ class ScriptureFlavorSchema: FlavorSchema() {
     }
 
     override fun toString(): String {
-        return "ScriptureFlavorSchema(name='$name', usfmVersion=$usfmVersion, translationType=$translationType, audience=$audience, projectType=$projectType)"
+        return "ScriptureFlavorSchema(usfmVersion=$usfmVersion, translationType=$translationType, audience=$audience, projectType=$projectType)"
     }
 }

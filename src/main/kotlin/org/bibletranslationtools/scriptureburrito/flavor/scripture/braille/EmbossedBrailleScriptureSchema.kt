@@ -19,10 +19,6 @@ import org.bibletranslationtools.scriptureburrito.flavor.FlavorSchema
     "conventions"
 )
 class EmbossedBrailleScriptureSchema: FlavorSchema() {
-    @get:JsonProperty("name")
-    @set:JsonProperty("name")
-    @JsonProperty("name")
-    override lateinit var name: String
 
     @get:JsonProperty("isContracted")
     @set:JsonProperty("isContracted")
@@ -125,7 +121,6 @@ class EmbossedBrailleScriptureSchema: FlavorSchema() {
         if (other !is EmbossedBrailleScriptureSchema) return false
         if (!super.equals(other)) return false
 
-        if (name != other.name) return false
         if (isContracted != other.isContracted) return false
         if (processor != other.processor) return false
         if (hyphenationDictionary != other.hyphenationDictionary) return false
@@ -140,7 +135,6 @@ class EmbossedBrailleScriptureSchema: FlavorSchema() {
 
     override fun hashCode(): Int {
         var result = super.hashCode()
-        result = 31 * result + name.hashCode()
         result = 31 * result + (isContracted?.hashCode() ?: 0)
         result = 31 * result + (processor?.hashCode() ?: 0)
         result = 31 * result + (hyphenationDictionary?.hashCode() ?: 0)
@@ -153,6 +147,6 @@ class EmbossedBrailleScriptureSchema: FlavorSchema() {
     }
 
     override fun toString(): String {
-        return "EmbossedBrailleScriptureSchema(name='$name', isContracted=$isContracted, processor=$processor, hyphenationDictionary=$hyphenationDictionary, numberSign=$numberSign, continuousPoetry=$continuousPoetry, content=$content, page=$page, conventions=$conventions)"
+        return "EmbossedBrailleScriptureSchema(isContracted=$isContracted, processor=$processor, hyphenationDictionary=$hyphenationDictionary, numberSign=$numberSign, continuousPoetry=$continuousPoetry, content=$content, page=$page, conventions=$conventions)"
     }
 }

@@ -16,18 +16,21 @@ class TestMetadataSubtypes {
         this.shortStatements = mutableListOf(ShortStatement("CC BY-SA", "en"))
     }
 
+    val formats = Formats().apply {
+        this["format-wav"] = AudioFormat(Compression.WAV)
+        this["format-mp3"] = AudioFormat(Compression.MP3)
+    }
     val audioFlavor = TypeSchema(
-        FlavorType(Flavor.SCRIPTURE).apply {
-            val formats = Formats()
-            formats.put("format-wav", AudioFormat(Compression.WAV))
-            formats.put("format-mp3", AudioFormat(Compression.MP3))
-            this.flavor = AudioFlavorSchema(
+        FlavorType(
+            name = Flavor.SCRIPTURE,
+            flavor = AudioFlavorSchema(
                 mutableSetOf(Performance.READING, Performance.SINGLE_VOICE),
                 formats
-            ).apply {
-                name = "audioTranslation"
+            ),
+            currentScope = ScopeSchema().apply {
+                this["GEN"] = mutableListOf("1")
             }
-        }
+        )
     )
 
     val enLanguage = Languages().apply {
