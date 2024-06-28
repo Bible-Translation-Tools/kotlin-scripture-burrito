@@ -16,7 +16,7 @@ plugins {
 }
 
 group 'org.bibletranslationtools'
-version '1.0.1-PR'
+version '1.0.1'
 
 sourceCompatibility = 1.8
 
@@ -31,8 +31,6 @@ dependencies {
     api "com.fasterxml.jackson.module:jackson-module-kotlin:2.15.1"
     api 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.15.1'
     api "org.apache.tika:tika-core:2.0.0"
-
-    implementation "org.wycliffeassociates:kotlin-resource-container:0.12.0"
 
     implementation "org.slf4j:slf4j-api:2.0.13"
 
