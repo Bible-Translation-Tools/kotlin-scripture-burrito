@@ -59,7 +59,6 @@ class AudioFlavorSchema(
 
         if (performance != other.performance) return false
         if (formats != other.formats) return false
-        if (name != other.name) return false
         if (conventions != other.conventions) return false
 
         return true
@@ -69,12 +68,11 @@ class AudioFlavorSchema(
         var result = super.hashCode()
         result = 31 * result + performance.hashCode()
         result = 31 * result + formats.hashCode()
-        result = 31 * result + name.hashCode()
         result = 31 * result + (conventions?.hashCode() ?: 0)
         return result
     }
 
     override fun toString(): String {
-        return "AudioFlavorSchema(performance=$performance, formats=$formats, conventions=$conventions)"
+        return "AudioFlavorSchema(name=audioTranslation, performance=$performance, formats=$formats, conventions=$conventions)"
     }
 }

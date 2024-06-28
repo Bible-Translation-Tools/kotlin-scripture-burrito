@@ -26,9 +26,7 @@ class TestMetadataSubtypes {
             flavor = AudioFlavorSchema(
                 mutableSetOf(Performance.READING, Performance.SINGLE_VOICE),
                 formats
-            ).apply {
-                name = "audioTranslation"
-            },
+            ),
             currentScope = ScopeSchema().apply {
                 this["GEN"] = mutableListOf("1")
             }

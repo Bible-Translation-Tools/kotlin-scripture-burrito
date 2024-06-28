@@ -26,9 +26,4 @@ import java.io.IOException
     JsonSubTypes.Type(value = EmbossedBrailleScriptureSchema::class, name = "embossedBrailleScripture"),
     JsonSubTypes.Type(value = TypesetScriptureSchema::class, name = "typesetScripture")
 )
-abstract class FlavorSchema {
-    @get:JsonProperty("name")
-    @set:JsonProperty("name")
-    @JsonProperty("name")
-    open lateinit var name: String
-}
+abstract class FlavorSchema

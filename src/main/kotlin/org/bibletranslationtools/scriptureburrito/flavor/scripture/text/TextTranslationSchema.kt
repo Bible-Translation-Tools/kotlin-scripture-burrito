@@ -10,11 +10,6 @@ import org.bibletranslationtools.scriptureburrito.flavor.FlavorSchema
 )
 class TextTranslationSchema: FlavorSchema() {
 
-    @get:JsonProperty("name")
-    @set:JsonProperty("name")
-    @JsonProperty("name")
-    override lateinit var name: String
-    
     @get:JsonProperty("projectType")
     @set:JsonProperty("projectType")
     @JsonProperty("projectType")
@@ -52,7 +47,6 @@ class TextTranslationSchema: FlavorSchema() {
         if (this === other) return true
         if (other !is TextTranslationSchema) return false
 
-        if (name != other.name) return false
         if (projectType != other.projectType) return false
         if (translationType != other.translationType) return false
         if (audience != other.audience) return false
@@ -63,7 +57,7 @@ class TextTranslationSchema: FlavorSchema() {
     }
 
     override fun hashCode(): Int {
-        var result = name.hashCode()
+        var result = 0
         result = 31 * result + (projectType?.hashCode() ?: 0)
         result = 31 * result + (translationType?.hashCode() ?: 0)
         result = 31 * result + (audience?.hashCode() ?: 0)
@@ -73,7 +67,7 @@ class TextTranslationSchema: FlavorSchema() {
     }
 
     override fun toString(): String {
-        return "TextTranslationSchema(name=$name, projectType=$projectType, translationType=$translationType, audience=$audience, usfmVersion=$usfmVersion, conventions=$conventions)"
+        return "TextTranslationSchema(projectType=$projectType, translationType=$translationType, audience=$audience, usfmVersion=$usfmVersion, conventions=$conventions)"
     }
 
     enum class Audience(private val value: String) {

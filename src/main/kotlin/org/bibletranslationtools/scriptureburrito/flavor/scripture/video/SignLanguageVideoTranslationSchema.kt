@@ -12,10 +12,6 @@ import org.bibletranslationtools.scriptureburrito.flavor.scripture.audio.Formats
     "name", "contentByChapter", "formats", "conventions"
 )
 class SignLanguageVideoTranslationSchema: FlavorSchema() {
-    @get:JsonProperty("name")
-    @set:JsonProperty("name")
-    @JsonProperty("name")
-    override lateinit var name: String
 
     @get:JsonProperty("contentByChapter")
     @set:JsonProperty("contentByChapter")
@@ -52,7 +48,6 @@ class SignLanguageVideoTranslationSchema: FlavorSchema() {
         if (this === other) return true
         if (other !is SignLanguageVideoTranslationSchema) return false
 
-        if (name != other.name) return false
         if (contentByChapter != other.contentByChapter) return false
         if (formats != other.formats) return false
         if (conventions != other.conventions) return false
@@ -61,7 +56,7 @@ class SignLanguageVideoTranslationSchema: FlavorSchema() {
     }
 
     override fun hashCode(): Int {
-        var result = name.hashCode()
+        var result = 0
         result = 31 * result + (contentByChapter?.hashCode() ?: 0)
         result = 31 * result + (formats?.hashCode() ?: 0)
         result = 31 * result + (conventions?.hashCode() ?: 0)
@@ -69,6 +64,6 @@ class SignLanguageVideoTranslationSchema: FlavorSchema() {
     }
 
     override fun toString(): String {
-        return "SignLanguageVideoTranslationSchema(name=$name, contentByChapter=$contentByChapter, formats=$formats, conventions=$conventions)"
+        return "SignLanguageVideoTranslationSchema(contentByChapter=$contentByChapter, formats=$formats, conventions=$conventions)"
     }
 }

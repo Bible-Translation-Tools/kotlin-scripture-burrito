@@ -130,5 +130,4 @@ abstract class MetadataSchema(
     override fun toString(): String {
         return "MetadataSchema(format=$format, meta=$meta, copyright=$copyright, idAuthorities=$idAuthorities, identification=$identification, confidential=$confidential, type=$type, relationships=$relationships, languages=$languages, targetAreas=$targetAreas, agencies=$agencies, ingredients=$ingredients, localizedNames=$localizedNames)"
     }
-
 }
